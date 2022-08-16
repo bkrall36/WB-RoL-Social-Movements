@@ -1,0 +1,70 @@
+---
+title: "RoL Election TWFE Analysis"
+author: "Brendon Krall"
+date: '2022-08-16'
+output: html_document
+---
+
+# Enviroment Setup
+```{r, Housekeeping, message=FALSE, warning=FALSE}
+rm(list=ls()) # Clear working memory 
+library(readxl) # Load Excel files
+library(magrittr) # Make all colnames lower case with no spaces
+library(stringr) # String formatting and replacement
+library(dplyr) # Data wrangling and manipulation
+library(ggplot2) # Data visualization
+library(tidyr) # Nesting and unnesting dataframes
+library(purrr) # Map all function
+library(broom) # Multiple linear regressions
+library(lmtest) # Run linear regressions with robust standard errors 
+library(multiwayvcov) # Generate robust standard 
+library(sandwich) # Generate robust standard errors
+library(stargazer) # Good way to report regression reports
+```
+
+# Data Import
+```{r, message=FALSE, warning=FALSE}
+setwd("C:/Users/brend/OneDrive/Documents/GitHub/WB-RoL-Social-Movements")
+df <- read_excel("Elections_Final_10.08.xlsx", sheet = 1)
+```
+
+# Prepare Linear Regression Model Terms and Dummy Variables
+```{r}
+# Create Year Fixed-Effect Variable 
+df$year_dummy <- factor(df$Year)
+
+# Create Constituency Fixed-Effect Variable 
+df$constituency_dummy <- factor(df$`PA ID`)
+
+# Create Treated 2008 and 2013 variable
+df <- df %>% mutate(
+#  treated_2008 = ifelse((Year <= 2008 & `Treated before 2008 elections` == 1), 1, 0),
+#  treated_2013 = ifelse((Year >= 2013 & Treated == 1), 1, 0),
+  treated = ifelse((`1st_visit_year`>= Year), 1, 0)
+)
+
+# Create Visits 2008 and 2013 variable Counts
+#df <- df %>% mutate(
+#  treated_2008_n = ifelse((Year == 2008 & Treated == 1), 'Visits before 2008 elections', 0),
+#  treated_2013_n = ifelse((Year == 2013 & Treated == 1), 'N_visits', 0)
+#)
+
+# Remove observations with NA values for our outcome variable 
+df <- df %>% filter(!is.na(Vote_Share))
+```
+# Subset Dataset for Regression Analysis
+```{r}
+# Restrict analysis to years between 2002 and 2008
+df_02_08 <- df %>%
+  filter(Year >= 2002 & Year <= 2008)
+
+# Subset data by party affiliation 
+df_pml <- df_02_08 %>%
+  filter(`Party Initials` == 'PML')
+
+df_pml_n <- df_02_08 %>%
+  filter(`Party Initials` == 'PML-N')
+
+df_pppp <- df_02_08 %>%
+  filter(`Party Initials` == 'PPPP')
+```
