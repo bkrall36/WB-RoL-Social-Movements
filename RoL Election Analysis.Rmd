@@ -24,7 +24,7 @@ library(stargazer) # Good way to report regression reports
 
 # Data Import
 ```{r, message=FALSE, warning=FALSE}
-setwd("C:/Users/brend/OneDrive/Documents/World Bank/Social Movements and the Rule of Law")
+setwd("C:/Users/brend/OneDrive/Documents/GitHub/WB-RoL-Social-Movements")
 df <- read_excel("Elections_Final_10.08.xlsx", sheet = 1)
 ```
 

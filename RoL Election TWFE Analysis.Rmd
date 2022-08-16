@@ -21,6 +21,14 @@ library(multiwayvcov) # Generate robust standard
 library(sandwich) # Generate robust standard errors
 library(stargazer) # Good way to report regression reports
 ```
+# DiD Packages
+```{r, message=FALSE, warning=FALSE}
+library(bacondecomp) # Andrew Goodman-Bacon (2021). Difference-in-differences with variation in treatment timing.
+library(did) # Brantly Callaway, Pedro H.C. Sant’Anna  (2020) Difference-in-Differences with multiple time periods.
+library(DIDmultiplegt) # Clément de Chaisemartin, Xavier D’Haultfoeuille (2020). Two-Way Fixed Effects Estimators with Heterogeneous Treatment Effects.
+
+# Package Source: https://asjadnaqvi.github.io/DiD/docs/02_R/
+```
 
 # Data Import
 ```{r, message=FALSE, warning=FALSE}
@@ -52,6 +60,7 @@ df <- df %>% mutate(
 # Remove observations with NA values for our outcome variable 
 df <- df %>% filter(!is.na(Vote_Share))
 ```
+
 # Subset Dataset for Regression Analysis
 ```{r}
 # Restrict analysis to years between 2002 and 2008
