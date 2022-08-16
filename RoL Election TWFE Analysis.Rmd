@@ -77,3 +77,107 @@ df_pml_n <- df_02_08 %>%
 df_pppp <- df_02_08 %>%
   filter(`Party Initials` == 'PPPP')
 ```
+
+
+# DIDmultiplegt: Estimation in DID with Multiple Groups and Periods
+```{r}
+library(wooldridge)
+Y = 'Vote_Share.1'
+G = 'PA ID'
+T = 'Year'
+D = 'treated'
+controls = c('count')
+
+# PML
+reg_pml1 <- did_multiplegt(df_pml, Y, G, T, D, controls, cluster=`PA ID`)
+
+# PML-N
+reg_pmln1 <- did_multiplegt(df_pml_n, Y, G, T, D, controls, cluster=`PA ID`)
+
+# PPPP
+reg_pppp1 <- did_multiplegt(df_pppp, Y, G, T, D, controls, cluster=`PA ID`)
+
+## Source: https://cran.r-project.org/web/packages/DIDmultiplegt/index.html
+```
+
+# Goodman-Bacon decomposition for differences-in-differences with variation in treatment timing
+```{r}
+# PML
+df_bacon_pml <- bacon(Vote_Share.1 ~ treated,
+                  data = df_pml,
+                  id_var = "PA ID",
+                  time_var = "Year")
+## Source: https://github.com/evanjflack/bacondecomp
+```
+# Brantly Callaway, Pedro H.C. Sant’Anna  (2020) Difference-in-Differences with multiple time periods
+```{r}
+## PML
+# Estimate group-time average treatment effects using the att_gt function
+pml <- att_gt(yname = "Vote_Share.1",
+              gname = "1st_visit_year",
+              idname = "PA ID",
+              tname = "Year",
+              xformla = ~1,
+              data = df_pml,
+              est_method = "reg"
+              )
+# Show the estimates of the group-time average treatment effects and their standard errors 
+summary(pml)
+
+# Plot the group-time average treatment effects
+ggdid(pml)
+
+# Make an event study plot in the did package
+es <- aggte(pml, type = "dynamic")
+
+# Plot the PML event study
+ggdid(es)
+
+## PML-N
+# Estimate group-time average treatment effects using the att_gt function
+pml_n <- att_gt(yname = "Vote_Share.1",
+              gname = "1st_visit_year",
+              idname = "PA ID",
+              tname = "Year",
+              xformla = ~1,
+              data = df_pml_n,
+              est_method = "reg"
+              )
+# Show the estimates of the group-time average treatment effects and their standard errors 
+summary(pml_n)
+
+# Plot the group-time average treatment effects
+ggdid(pml_n)
+
+# Make an event study plot in the did package
+es_pmln <- aggte(pml_n, type = "dynamic")
+
+# Plot the PML event study
+ggdid(es_pmln)
+
+
+## PPPP
+# Estimate group-time average treatment effects using the att_gt function
+pppp <- att_gt(yname = "Vote_Share.1",
+              gname = "1st_visit_year",
+              idname = "PA ID",
+              tname = "Year",
+              xformla = ~1,
+              data = df_pppp,
+              est_method = "reg"
+              )
+# Show the estimates of the group-time average treatment effects and their standard errors 
+summary(pppp)
+
+# Plot the group-time average treatment effects
+ggdid(pppp)
+
+# Make an event study plot in the did package
+es_pppp <- aggte(pppp, type = "dynamic")
+
+# Plot the PML event study
+ggdid(es_pppp)
+
+## Source: https://bcallaway11.github.io/did/
+```
+
