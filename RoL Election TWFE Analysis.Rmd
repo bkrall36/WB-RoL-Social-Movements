@@ -48,7 +48,7 @@ df$constituency_dummy <- factor(df$`PA ID`)
 df <- df %>% mutate(
 #  treated_2008 = ifelse((Year <= 2008 & `Treated before 2008 elections` == 1), 1, 0),
 #  treated_2013 = ifelse((Year >= 2013 & Treated == 1), 1, 0),
-  treated = ifelse((`1st_visit_year`>= Year), 1, 0)
+  treated = ifelse((`1st_visit_year`<= Year), 1, 0)
 )
 
 # Create Visits 2008 and 2013 variable Counts
@@ -107,6 +107,7 @@ df_bacon_pml <- bacon(Vote_Share.1 ~ treated,
                   data = df_pml,
                   id_var = "PA ID",
                   time_var = "Year")
+
 ## Source: https://github.com/evanjflack/bacondecomp
 ```
 # Brantly Callaway, Pedro H.C. Sant’Anna  (2020) Difference-in-Differences with multiple time periods
