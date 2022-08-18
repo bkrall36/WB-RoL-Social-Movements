@@ -77,7 +77,7 @@ cl.cov.pml1 <- cluster.vcov(reg_pml, df_pml$`PA ID`)
 cl.robust.se.pml1 <- sqrt(diag(cl.cov.pml1))
 
 # OLS with 'count' variable control
-reg_pml2 <- lm(Vote_Share.1 ~ treated + count, data = df_pml)
+reg_pml2 <- lm(Vote_Share.1 ~ treated + year_dummy, data = df_pml)
 # cluster-robust SEs for reg_pml2
 cl.cov.pml2 <- cluster.vcov(reg_pml2, df_pml$`PA ID`) 
 cl.robust.se.pml2 <- sqrt(diag(cl.cov.pml2))
@@ -94,22 +94,22 @@ reg_pml4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count,
 cl.cov.pml4 <- cluster.vcov(reg_pml4, df_pml$`PA ID`) 
 cl.robust.se.pml4 <- sqrt(diag(cl.cov.pml4))
 
-stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, type="text", title="Effect of CJ visits on vote share for General Musharraf PML - Impact on Dicator’s Party", keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Controls', 'Year Dummy (2008)'), column.labels=c('OLS', 'OLS w/ Controls', 'FE', 'FE w/ Controls'), dep.var.labels='Vote Share for PML Party', se = list(cl.robust.se.pml1, cl.robust.se.pml2, cl.robust.se.pml3, cl.robust.se.pml4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of PML party in 2008 provincial", "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  "district. Controls include: # of candidates in a district (count)."), notes.align = "l")
+stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, type="text", title="Effect of CJ visits on vote share for General Musharraf PML - Impact on Dicator’s Party", keep = c('Constant','treated', 'year_dummy2008', 'count'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts','Year Dummy (2008)', 'Controls'), column.labels=c('OLS', 'OLS w/ Year FE', 'TWFE', 'TWFE w/ Controls'), dep.var.caption = '% of Vote Share', dep.var.labels.include = FALSE, se = list(cl.robust.se.pml1, cl.robust.se.pml2, cl.robust.se.pml3, cl.robust.se.pml4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of PML party in 2008 provincial", "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  "district. Controls include: # of candidates in a district (count)."), notes.align = "l")
 ```
 
 # Perform Regression Analysis - PML-N
 ```{r}
 # OLS 
-reg_pmln <- lm(Vote_Share.1 ~ treated, data = df_pml_n)
+#reg_pmln <- lm(Vote_Share.1 ~ treated, data = df_pml_n)
 # cluster-robust SEs for reg_pmln
-cl.cov.pmln1 <- cluster.vcov(reg_pmln, df_pml_n$`PA ID`) 
-cl.robust.se.pmln1 <- sqrt(diag(cl.cov.pmln1))
+#cl.cov.pmln1 <- cluster.vcov(reg_pmln, df_pml_n$`PA ID`) 
+#cl.robust.se.pmln1 <- sqrt(diag(cl.cov.pmln1))
 
 # OLS with 'count' variable control
-reg_pmln2 <- lm(Vote_Share.1 ~ treated + count, data = df_pml_n)
+#reg_pmln2 <- lm(Vote_Share.1 ~ treated + count, data = df_pml_n)
 # cluster-robust SEs for reg_pmln2
-cl.cov.pmln2 <- cluster.vcov(reg_pmln2, df_pml_n$`PA ID`) 
-cl.robust.se.pmln2 <- sqrt(diag(cl.cov.pmln2))
+#cl.cov.pmln2 <- cluster.vcov(reg_pmln2, df_pml_n$`PA ID`) 
+#cl.robust.se.pmln2 <- sqrt(diag(cl.cov.pmln2))
 
 # OLS with TWFE 
 reg_pmln3 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy, data = df_pml_n)
@@ -122,23 +122,21 @@ reg_pmln4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count
 # cluster-robust SEs for reg_pmln4
 cl.cov.pmln4 <- cluster.vcov(reg_pmln4, df_pml_n$`PA ID`) 
 cl.robust.se.pmln4 <- sqrt(diag(cl.cov.pmln4))
-
-stargazer(reg_pmln,reg_pmln2,reg_pmln3,reg_pmln4, type="text", title='Effect of CJ visits on vote share for Opposition Party Pledging Supporting for the Lawyers Movement (PML-N) - Impact on Pro-Lawyers Movement Party', keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Controls', 'Year Dummy (2008)'), column.labels=c('OLS', 'OLS w/ Controls', 'FE', 'FE w/ Controls'), dep.var.labels='Vote Share for PML-N Party', se = list(cl.robust.se.pmln1, cl.robust.se.pmln2, cl.robust.se.pmln3, cl.robust.se.pmln4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of PML-N party in 2008", "provincial and national elections (compare to 2002 elections). Outcome variable is visit to a", "given district. Controls include: # of candidates in a district (count)."), notes.align = "l")
 ```
 
 # Perform Regression Analysis - PPPP
 ```{r}
 # OLS 
-reg_pppp <- lm(Vote_Share.1 ~ treated, data = df_pppp)
+#reg_pppp <- lm(Vote_Share.1 ~ treated, data = df_pppp)
 # cluster-robust SEs for reg_pppp
-cl.cov.pppp1 <- cluster.vcov(reg_pppp, df_pppp$`PA ID`) 
-cl.robust.se.pppp1 <- sqrt(diag(cl.cov.pppp1))
+#cl.cov.pppp1 <- cluster.vcov(reg_pppp, df_pppp$`PA ID`) 
+#cl.robust.se.pppp1 <- sqrt(diag(cl.cov.pppp1))
 
 # OLS with 'count' variable control
-reg_pppp2 <- lm(Vote_Share.1 ~ treated + count, data = df_pppp)
+#reg_pppp2 <- lm(Vote_Share.1 ~ treated + count, data = df_pppp)
 # cluster-robust SEs for reg_pppp2
-cl.cov.pppp2 <- cluster.vcov(reg_pppp2, df_pppp$`PA ID`) 
-cl.robust.se.pppp2 <- sqrt(diag(cl.cov.pppp2))
+#cl.cov.pppp2 <- cluster.vcov(reg_pppp2, df_pppp$`PA ID`) 
+#cl.robust.se.pppp2 <- sqrt(diag(cl.cov.pppp2))
 
 # OLS with TWFE 
 reg_pppp3 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy, data = df_pppp)
@@ -151,8 +149,11 @@ reg_pppp4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count
 # cluster-robust SEs for reg_pppp4
 cl.cov.pppp4 <- cluster.vcov(reg_pppp4, df_pppp$`PA ID`) 
 cl.robust.se.pppp4 <- sqrt(diag(cl.cov.pppp4))
+```
 
-stargazer(reg_pppp,reg_pppp2,reg_pppp3,reg_pppp4, type="text", title="Effect of CJ visits on vote share for the non-supporting Lawyers movement opposition (PPP) - Impact on the non-aligned Opposition", keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Controls', 'Year Dummy (2008)'), column.labels=c('OLS', 'OLS w/ Controls', 'FE', 'FE w/ Controls'), dep.var.labels='Vote Share for PPPP Party', se = list(cl.robust.se.pppp1, cl.robust.se.pppp2, cl.robust.se.pppp3, cl.robust.se.pppp4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of PPP party in 2008 provincial", "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  "district. Controls include: # of candidates in a district (count)."), notes.align = "l")
+# Create Opposition (PML-N and PPP) Regression Table
+```{r}
+stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4, type="text", title="Effect of CJ visits on vote share for the Opposition (PML-N & PPP)", keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Year Dummy (2008)', 'Controls'), column.labels=c('TWFE', 'TWFE w/ Controls', 'TWFE', 'TWFE w/ Controls'), dep.var.caption = '% of Vote Share', se = list(cl.robust.se.pmln3, cl.robust.se.pmln4, cl.robust.se.pppp3, cl.robust.se.pppp4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of opposition parties in 2008", "provincial and national elections (compare to 2002 elections). Outcome variable is visit to a",  "given district. Controls include: # of candidates in a district (count)."), notes.align = "l")
 ```
 
 # Difference in Means of Vote Share PML Summary Table
