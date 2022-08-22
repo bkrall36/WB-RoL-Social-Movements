@@ -190,8 +190,10 @@ ggplot(data = pml_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
-# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan before 2008 elections on the share of votes in # favor of the PML party in 2008  provincial and national elections (compared to 2002 elections). The vertical lines reflect the 95% 
-# confidence intervals.
+# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan 
+# before 2008 elections on the share of votes in # favor of the PML party in 2008  
+# provincial and national elections (compared to 2002 elections). The vertical lines 
+# reflect the 95% confidence intervals.
 ```
 
 # Difference in Means of Vote Share PML Summary Table
@@ -241,8 +243,10 @@ ggplot(data = pmln_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
-# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan before 2008 elections on the share of votes in # favor of PML-N party in 2008 provincial and national elections (compare to 2002 elections). The vertical lines reflect the 95%  
-# confidence intervals.
+# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan 
+# before 2008 elections on the share of votes in # favor of PML-N party in 2008 
+# provincial and national elections (compare to 2002 elections). The vertical lines 
+# reflect the 95% confidence intervals.
 ```
 
 # Difference in Means of Vote Share PML-N
@@ -291,8 +295,10 @@ ggplot(data = pppp_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
-# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan before 2008 elections on the share of votes in # favor of PPP party in 2008 provincial and national elections (compared to 2002 elections). The vertical lines reflect the 95%
-# confidence intervals.
+# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan 
+# before 2008 elections on the share of votes in # favor of PPP party in 2008 provincial
+# and national elections (compared to 2002 elections). The vertical lines reflect the 
+# 95% confidence intervals.
 ```
 
 # Difference in Means of Vote Share PPPP
