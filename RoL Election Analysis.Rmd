@@ -189,6 +189,9 @@ ggplot(data = pml_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme_light() + 
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
+
+# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan before 2008 elections on the share of votes in # favor of the PML party in 2008  provincial and national elections (compared to 2002 elections). The vertical lines reflect the 95% 
+# confidence intervals.
 ```
 
 # Difference in Means of Vote Share PML Summary Table
@@ -237,6 +240,9 @@ ggplot(data = pmln_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme_light() + 
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
+
+# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan before 2008 elections on the share of votes in # favor of PML-N party in 2008 provincial and national elections (compare to 2002 elections). The vertical lines reflect the 95%  
+# confidence intervals.
 ```
 
 # Difference in Means of Vote Share PML-N
@@ -284,6 +290,9 @@ ggplot(data = pppp_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme_light() + 
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
+
+# Note: The figure presents the effect of Chief Justice visits to districts of Pakistan before 2008 elections on the share of votes in # favor of PPP party in 2008 provincial and national elections (compared to 2002 elections). The vertical lines reflect the 95%
+# confidence intervals.
 ```
 
 # Difference in Means of Vote Share PPPP
@@ -324,7 +333,7 @@ df_subset <- df %>% select(c(Year, Vote_Share.1, 'Party Initials', Treated))
 # Rename for clarity
 df_subset <- df_subset %>%
   mutate(
-    Treated = ifelse(Treated == 1, 'Visited Districts', 'Unvisited Districts')
+    Treated = ifelse(Treated == 1, 'Visited', 'Never Visted')
 )
 
 # Parallel Trend for PML                    
@@ -334,7 +343,9 @@ df_subset %>%
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +
   theme_bw() +
   labs(x = "Year", y = "% of Vote Share", title = "Evolution of Vote Share - PML (Years 1970 to 2012)") +
-  geom_vline(xintercept = 2007)
+  geom_vline(xintercept = 2007) +
+  scale_color_manual('Treated', values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) +
+  theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
 
 # Parallel Trend for PML-N                   
 df_subset %>%
@@ -343,7 +354,9 @@ df_subset %>%
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +
   theme_bw() +
   labs(x = "Year", y = "% of Vote Share", title = "Evolution of Vote Share - PML-N (Years 1992 to 2012)") +
-  geom_vline(xintercept = 2007)
+  geom_vline(xintercept = 2007) +
+  scale_color_manual('Treated', values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) +
+  theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
 
 # Parallel Trend for PPPP                    
 df_subset %>%
@@ -352,7 +365,9 @@ df_subset %>%
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +
   theme_bw() +
   labs(x = "Year", y = "% of Vote Share", title = "Evolution of Vote Share - PPP (Years 2002 to 2012)") +
-  geom_vline(xintercept = 2007)
+  geom_vline(xintercept = 2007) +
+  scale_color_manual('Treated', values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) +
+  theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
 ```
 
 # Event Study 
@@ -390,5 +405,6 @@ ggplot(combined_df, aes(x=`c(-1, 0, 1)`, y=`summary[2:4, ]`)) +
   geom_pointrange(aes(ymin=`2.5 %`, ymax=`97.5 %`)) +
   labs(x='Time to Treatment (years)', y='Effect Size (pp of Vote Share)', title='Average Treatment Effect of CJ Visit') +
   geom_line() +
-  theme_bw()
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5))
 ```
