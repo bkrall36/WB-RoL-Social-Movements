@@ -1,0 +1,118 @@
+---
+title: "Balance Table"
+author: "Brendon Krall"
+date: "2022-08-23"
+output: html_document
+---
+
+# Enviroment Setup
+```{r, Housekeeping, message=FALSE, warning=FALSE}
+rm(list=ls()) # Clear working memory 
+library(readxl) # Load Excel files
+library(magrittr) # Make all colnames lower case with no spaces
+library(stringr) # String formatting and replacement
+library(dplyr) # Data wrangling and manipulation
+library(ggplot2) # Data visualization
+library(tidyr) # Nesting and unnesting dataframes
+library(purrr) # Map all function
+library(broom) # Multiple linear regressions
+library(lmtest) # Run linear regressions with robust standard errors 
+library(multiwayvcov) # Generate robust standard 
+library(sandwich) # Generate robust standard errors
+library(stargazer) # Good way to report regression reports
+```
+
+# Data Import
+```{r, message=FALSE, warning=FALSE}
+setwd("C:/Users/brend/OneDrive/Documents/GitHub/WB-RoL-Social-Movements")
+pslmdf <- read_excel("PSLM Data.xlsx", sheet = 1)
+
+# Data Source: https://www.pbs.gov.pk/publication/pakistan-social-and-living-standards-measurement-survey-pslm-2004-05-provincial
+```
+
+# Data Cleaning 
+```{r}
+# Subset first three rows and remove them from dataframe 
+pslmdf_first3 <- pslmdf[, 1:3]
+pslmdf <- pslmdf[, -c(1:3)]
+
+# Store column names and then store columns with names 
+cnames <- colnames(pslmdf)
+cnames <- cnames[seq(1, length(cnames), 9)]
+
+# Remove row of metadata 
+pslmdf_first3 <- pslmdf_first3[-1,]
+pslmdf <- pslmdf[-1,]
+
+# Select column observations with totals only 
+pslmdf <- pslmdf[seq_len(ncol(pslmdf)) %% 9 == 0]
+
+# Rename total columns manually and using stored column names 
+colnames(pslmdf_first3) <- c('year', 'province_id', 'name')
+colnames(pslmdf) <- cnames
+
+# Add first three rows back 
+pslmdf <- cbind(pslmdf_first3, pslmdf)
+```
+
+# Grouping Data by Treatment Status 
+```{r}
+# Create a list that contains districts that were visited by chief justice 
+treated_districts <- c("Peshawar", "Rawalpindi", "Attock", "Jhelum", "Gujrat", "Sargodha", "Faisalabad", "Lahore", "Gujranwala", "Sialkot", "Multan", "Dera Ghazi Khan", "Muzaffargarh", "Sahiwal", "Bahawalpur", "Sukkur", "Larkana", "Shaheed Benazirabad", "Khairpur", "Hyderabad", "Karachi", "Quetta", "Abbottabad", "Okara", "Chakwal", "Khanewal", "Naushehro Feroze", "Hafizabad", "Haripur", "Matiari", "Islamabad", "Chiniot")
+
+# Create a treated dummy column
+pslmdf <- pslmdf %>%
+  mutate(
+    treated = ifelse(name %in% treated_districts, 1, 0)
+  )
+
+# Subset the data for the control groups
+pslmdf_control <- pslmdf %>%
+  filter(treated == 0)
+
+# Subset the data for the treatment groups
+pslmdf_treated <- pslmdf %>%
+  filter(treated == 1)
+
+# De-identify districts
+pslmdf_treated <- pslmdf_treated[, -c(1:3)]
+pslmdf_control <- pslmdf_control[, -c(1:3)]
+
+# Ensure datatype of columns are numeric 
+pslmdf_treated[] <- sapply(pslmdf_treated, as.numeric)
+pslmdf_control[] <- sapply(pslmdf_control, as.numeric)
+
+# Compute aggregate measures for balance table
+control_means <- as.data.frame(colMeans(pslmdf_control))
+treated_means <- as.data.frame(colMeans(pslmdf_treated))
+
+# Combine measures and remove unnecessary row observations
+means_df <- cbind(control_means, treated_means)
+means_df <- means_df %>% filter(row_number() <= n()-4)
+
+# Create p-value vector to store values from for loop 
+pval <- c()
+
+# Calculate the p-values baseline differences in means using for loop
+for (i in 1:24){
+  pval[i] <- t.test(pslmdf_control[,i], pslmdf_treated[,i],
+                    alternative = 'two.sided',
+                    var.equal = FALSE)$p.val
+}
+
+# Create balance table, add significance, and rename columns
+balance_tbl <- cbind(means_df, pval)
+balance_tbl <- balance_tbl %>%
+  mutate(
+    'Significance Level' = case_when(
+      pval <= 0.01 ~ "***",
+      pval <= 0.05 ~ "**",
+      pval <= 0.1 ~ "*",
+      pval > 0.1 ~ ""
+    )
+  )
+
+
+colnames(balance_tbl) <- c("Univisited District Means", "Visited District Means", "P-Value", "Significance Level")
+```
+
