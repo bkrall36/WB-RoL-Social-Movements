@@ -8,4 +8,4 @@ The files contain the scripts and datasets used to conduct the analysis presente
 
 Requirements: 
 * R: 
-* Python: 3.x. You can download it <a href=" https://www.python.org/downloads"> here </a>.
+* Python: 3.x. You can download it <a href="https://www.python.org/downloads/"> here </a>.
