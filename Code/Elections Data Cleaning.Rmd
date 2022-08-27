@@ -1,0 +1,36 @@
+---
+title: "Elections Data Cleaning"
+author: "Brendon Krall"
+date: "2022-08-27"
+output: html_document
+---
+
+# Data Import and Cleaning 
+```{r, message=FALSE, warning=FALSE}
+df <- read_excel(paste0(Inputs, "Elections_Final_10.08.xlsx"), sheet = 1)
+
+# Prepare Linear Regression Model Terms and Dummy Variables
+# Create Year Fixed-Effect Variable 
+df$year_dummy <- factor(df$Year)
+
+# Create Constituency Fixed-Effect Variable 
+df$constituency_dummy <- factor(df$`PA ID`)
+
+# Create Treated 2008 and 2013 variable
+df <- df %>% mutate(
+  treated = ifelse((`1st_visit_year`<= Year), 1, 0)
+)
+
+# Create Visits 2008 and 2013 variable Counts
+#df <- df %>% mutate(
+#  treated_2008_n = ifelse((Year == 2008 & Treated == 1), 'Visits before 2008 elections', 0),
+#  treated_2013_n = ifelse((Year == 2013 & Treated == 1), 'N_visits', 0)
+#)
+
+# Remove observations with NA values for our outcome variable 
+df <- df %>% filter(!is.na(Vote_Share))
+
+# Store Clean Data
+write_csv(df, paste0(
+  Outputs, "clean_elections_data.csv"))
+```

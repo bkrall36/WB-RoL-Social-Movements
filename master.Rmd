@@ -1,0 +1,71 @@
+---
+title: "master"
+author: "Brendon Krall"
+date: "2022-08-27"
+output: html_document
+---
+
+# Master script for Rule of Law & Social Movements 
+rm(list = ls())
+
+# Select actions ------------------------------------------------------------
+
+# Cleaning
+clean_elections_data <- 1 # Cleans elections data 
+clean_pslm_data  <- 1 # Cleans Pakistan social and living standards measurement data
+
+# Construct ...
+
+
+# Output for paper
+table01_balance <- 1 # Creates balance table
+table02_DiDregression <- 1 # Creates regression table (PML)
+table03_DiDregressionOpp <- 1 # Create regression table (Opp)
+table04_eventstudy <- 1 # Create regression table for event study 
+
+fig01_bargraphPML <- 1 # Creates bar graph for PML Party means
+fig02_bargraphPMLN <- 1 # Creates bar graph for PML-N Party means
+fig03_bargraphPPP <- 1 # Creates bar graph for PML Party means 
+fig04_eventstudy <- 1 # # Creates event study graph
+
+
+# User path -----------------------------------------------------------------
+
+# Brendon's data
+if (Sys.getenv("USER") == "") {
+#  data_path <- "SULTAN DROP BOX LINK"
+  github_path <- "/Users/brend/OneDrive/Documents/GitHub/WB-RoL-Social-Movements/"
+  Sys.setenv(RSTUDIO_PANDOC = "/Applications/RStudio.app/Contents/MacOS/quarto/bin")
+}
+
+# Folder globals ------------------------------------------------------------
+Inputs <- paste0(github_path, 'Inputs/')
+Outputs <- paste0(github_path, 'Outputs/')
+Code <- paste0(github_path, 'Code/')
+
+# Packages used --------------------------------------------------------------
+packages <- c(
+  "readxl",
+  "magrittr",
+  "stringr",
+  "dplyr",
+  "ggplot2",
+  "tidyr",
+  "purrr",
+  "broom",
+  "lmtest",
+  "multiwayvcov",
+  "sandwich",
+  "stargazer",
+  "readr")
+
+# Install packages
+sapply(packages, function(x) {
+  if (!(x %in% installed.packages())) {
+    install.packages(x, dependencies = TRUE)
+  }
+})
+  
+# Load packages
+invisible(sapply(packages, require, character.only = TRUE))
+

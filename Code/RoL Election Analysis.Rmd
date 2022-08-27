@@ -5,51 +5,6 @@ date: "8/8/2022"
 output: html_document
 ---
 
-# Enviroment Setup
-```{r, Housekeeping, message=FALSE, warning=FALSE}
-rm(list=ls()) # Clear working memory 
-library(readxl) # Load Excel files
-library(magrittr) # Make all colnames lower case with no spaces
-library(stringr) # String formatting and replacement
-library(dplyr) # Data wrangling and manipulation
-library(ggplot2) # Data visualization
-library(tidyr) # Nesting and unnesting dataframes
-library(purrr) # Map all function
-library(broom) # Multiple linear regressions
-library(lmtest) # Run linear regressions with robust standard errors 
-library(multiwayvcov) # Generate robust standard 
-library(sandwich) # Generate robust standard errors
-library(stargazer) # Good way to report regression reports
-```
-
-# Data Import
-```{r, message=FALSE, warning=FALSE}
-setwd("C:/Users/brend/OneDrive/Documents/GitHub/WB-RoL-Social-Movements")
-df <- read_excel("Elections_Final_10.08.xlsx", sheet = 1)
-```
-
-# Prepare Linear Regression Model Terms and Dummy Variables
-```{r}
-# Create Year Fixed-Effect Variable 
-df$year_dummy <- factor(df$Year)
-
-# Create Constituency Fixed-Effect Variable 
-df$constituency_dummy <- factor(df$`PA ID`)
-
-# Create Treated 2008 and 2013 variable
-df <- df %>% mutate(
-  treated = ifelse((`1st_visit_year`<= Year), 1, 0)
-)
-
-# Create Visits 2008 and 2013 variable Counts
-#df <- df %>% mutate(
-#  treated_2008_n = ifelse((Year == 2008 & Treated == 1), 'Visits before 2008 elections', 0),
-#  treated_2013_n = ifelse((Year == 2013 & Treated == 1), 'N_visits', 0)
-#)
-
-# Remove observations with NA values for our outcome variable 
-df <- df %>% filter(!is.na(Vote_Share))
-```
 # Subset Dataset for Regression Analysis
 ```{r}
 # Restrict analysis to years between 2002 and 2008
@@ -94,23 +49,12 @@ reg_pml4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count,
 cl.cov.pml4 <- cluster.vcov(reg_pml4, df_pml$`PA ID`) 
 cl.robust.se.pml4 <- sqrt(diag(cl.cov.pml4))
 
-stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, type="text", title="Effect of CJ visits on vote share for General Musharraf PML - Impact on Dicator’s Party", keep = c('Constant','treated', 'year_dummy2008', 'count'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts','Year Dummy (2008)', 'Controls'), column.labels=c('OLS', 'OLS w/ Year FE', 'TWFE', 'TWFE w/ Controls'), dep.var.caption = '% of Vote Share', dep.var.labels.include = FALSE, se = list(cl.robust.se.pml1, cl.robust.se.pml2, cl.robust.se.pml3, cl.robust.se.pml4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of PML party in 2008 provincial", "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  "district. Controls include: # of candidates in a district (count)."), notes.align = "l")
+table02_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, type="text", title="Effect of CJ visits on vote share for General Musharraf PML - Impact on Dicator’s Party", keep = c('Constant','treated', 'year_dummy2008', 'count'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts','Year Dummy (2008)', 'Controls'), column.labels=c('OLS', 'OLS w/ Year FE', 'TWFE', 'TWFE w/ Controls'), dep.var.caption = '% of Vote Share', dep.var.labels.include = FALSE, se = list(cl.robust.se.pml1, cl.robust.se.pml2, cl.robust.se.pml3, cl.robust.se.pml4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of PML party in 2008 provincial", "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  "district. Controls include: # of candidates in a district (count)."), notes.align = "l")
 ```
 
-# Perform Regression Analysis - PML-N
+# Perform Regression Analysis for Opposition 
 ```{r}
-# OLS 
-#reg_pmln <- lm(Vote_Share.1 ~ treated, data = df_pml_n)
-# cluster-robust SEs for reg_pmln
-#cl.cov.pmln1 <- cluster.vcov(reg_pmln, df_pml_n$`PA ID`) 
-#cl.robust.se.pmln1 <- sqrt(diag(cl.cov.pmln1))
-
-# OLS with 'count' variable control
-#reg_pmln2 <- lm(Vote_Share.1 ~ treated + count, data = df_pml_n)
-# cluster-robust SEs for reg_pmln2
-#cl.cov.pmln2 <- cluster.vcov(reg_pmln2, df_pml_n$`PA ID`) 
-#cl.robust.se.pmln2 <- sqrt(diag(cl.cov.pmln2))
-
+## PML-N
 # OLS with TWFE 
 reg_pmln3 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy, data = df_pml_n)
 # cluster-robust SEs for reg_pmln3
@@ -122,22 +66,8 @@ reg_pmln4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count
 # cluster-robust SEs for reg_pmln4
 cl.cov.pmln4 <- cluster.vcov(reg_pmln4, df_pml_n$`PA ID`) 
 cl.robust.se.pmln4 <- sqrt(diag(cl.cov.pmln4))
-```
 
-# Perform Regression Analysis - PPP
-```{r}
-# OLS 
-#reg_pppp <- lm(Vote_Share.1 ~ treated, data = df_pppp)
-# cluster-robust SEs for reg_pppp
-#cl.cov.pppp1 <- cluster.vcov(reg_pppp, df_pppp$`PA ID`) 
-#cl.robust.se.pppp1 <- sqrt(diag(cl.cov.pppp1))
-
-# OLS with 'count' variable control
-#reg_pppp2 <- lm(Vote_Share.1 ~ treated + count, data = df_pppp)
-# cluster-robust SEs for reg_pppp2
-#cl.cov.pppp2 <- cluster.vcov(reg_pppp2, df_pppp$`PA ID`) 
-#cl.robust.se.pppp2 <- sqrt(diag(cl.cov.pppp2))
-
+## PPP
 # OLS with TWFE 
 reg_pppp3 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy, data = df_pppp)
 # cluster-robust SEs for reg_pppp3
@@ -149,11 +79,9 @@ reg_pppp4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count
 # cluster-robust SEs for reg_pppp4
 cl.cov.pppp4 <- cluster.vcov(reg_pppp4, df_pppp$`PA ID`) 
 cl.robust.se.pppp4 <- sqrt(diag(cl.cov.pppp4))
-```
 
 # Create Opposition (PML-N and PPP) Regression Table
-```{r}
-stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4, type="text", title="Effect of CJ visits on vote share for the Opposition (PML-N & PPP)", keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Year Dummy (2008)', 'Controls'), column.labels=c('PML-N: TWFE', 'PML-N: TWFE w/ Controls', 'PPP: TWFE', 'PPP: TWFE w/ Controls'), dep.var.caption = '% of Vote Share', dep.var.labels.include = FALSE, se = list(cl.robust.se.pmln3, cl.robust.se.pmln4, cl.robust.se.pppp3, cl.robust.se.pppp4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of opposition parties in 2008", "provincial and national elections (compare to 2002 elections). Outcome variable is visit to a",  "given district. Controls include: # of candidates in a district (count)."), notes.align = "l")
+table03_DiDregressionOpp <- stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4, type="text", title="Effect of CJ visits on vote share for the Opposition (PML-N & PPP)", keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Year Dummy (2008)', 'Controls'), column.labels=c('PML-N: TWFE', 'PML-N: TWFE w/ Controls', 'PPP: TWFE', 'PPP: TWFE w/ Controls'), dep.var.caption = '% of Vote Share', dep.var.labels.include = FALSE, se = list(cl.robust.se.pmln3, cl.robust.se.pmln4, cl.robust.se.pppp3, cl.robust.se.pppp4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of opposition parties in 2008", "provincial and national elections (compare to 2002 elections). Outcome variable is visit to a",  "given district. Controls include: # of candidates in a district (count)."), notes.align = "l")
 ```
 
 # Construct Bar Graph Variables 
@@ -171,6 +99,7 @@ df_02_08_bargraphs <- df_02_08 %>%
          ic=(se * qt((1-0.05)/2 + .5, n-1))) %>%
 # Rename column name and binary variable dummys to characters 
   rename(group = 'Treated before 2008 elections') 
+
 df_02_08_bargraphs$group <- ifelse(df_02_08_bargraphs$group == 1, 'Visited', 'Never Visited')
 ```
 
@@ -181,7 +110,7 @@ pml_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PML')
 
 # Create bar chart for PML 
-ggplot(data = pml_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
+fig01_bargraphPML <- ggplot(data = pml_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   geom_bar(colour='black', width=0.50, stat='identity', position=position_dodge(0.5)) + 
   geom_errorbar(aes(x=factor(Year), ymin=mean-ic, ymax=mean+ic), width=0.25, colour="#778899", alpha=1, size=1, position=position_dodge(0.5)) +
   ggtitle('Impact of CJ visits on General Musharraf’s Party - PML') + 
@@ -190,6 +119,7 @@ ggplot(data = pml_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
+print(fig01_bargraphPML)
 # Note: The figure presents the effect of Chief Justice visits to districts of Pakistan 
 # before 2008 elections on the share of votes in # favor of the PML party in 2008  
 # provincial and national elections (compared to 2002 elections). The vertical lines 
@@ -234,7 +164,7 @@ pmln_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PML-N')
 
 # Create bar chart for PML 
-ggplot(data = pmln_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
+fig02_bargraphPMLN <- ggplot(data = pmln_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   geom_bar(colour='black', width=0.50, stat='identity', position=position_dodge(0.5)) + 
   geom_errorbar(aes(x=factor(Year), ymin=mean-ic, ymax=mean+ic), width=0.25, colour="#778899", alpha=1, size=1, position=position_dodge(0.5)) +
   ggtitle('Impact of CJ visits on Party Pledging Support for Lawyers Movment - PML-N') + 
@@ -242,6 +172,8 @@ ggplot(data = pmln_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme_light() + 
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
+
+print(fig02_bargraphPMLN)
 
 # Note: The figure presents the effect of Chief Justice visits to districts of Pakistan 
 # before 2008 elections on the share of votes in # favor of PML-N party in 2008 
@@ -286,7 +218,7 @@ pppp_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PPPP')
 
 # Create bar chart for PML 
-ggplot(data = pppp_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
+fig03_bargraphPPP <- ggplot(data = pppp_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   geom_bar(colour='black', width=0.50, stat='identity', position=position_dodge(0.5)) + 
   geom_errorbar(aes(x=factor(Year), ymin=mean-ic, ymax=mean+ic), width=0.25, colour="#778899", alpha=1, size=1, position=position_dodge(0.5)) +
   ggtitle('Impact of CJ visits on Nuetral Opposition Party - PPP') + 
@@ -295,6 +227,7 @@ ggplot(data = pppp_bar, aes(x=factor(Year), y=mean, groups=group, fill=group)) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
+print(fig03_bargraphPPP)
 # Note: The figure presents the effect of Chief Justice visits to districts of Pakistan 
 # before 2008 elections on the share of votes in # favor of PPP party in 2008 provincial
 # and national elections (compared to 2002 elections). The vertical lines reflect the 
@@ -391,7 +324,7 @@ event_study_reg <- lm(Vote_Share.1 ~ factor(time_since_treatment) + constituency
 cl.cov.event <- cluster.vcov(event_study_reg, df$`PA ID`) 
 cl.robust.se.event <- sqrt(diag(cl.cov.event))
 
-stargazer(event_study_reg, type="text", keep=c("Constant","time_since_treatment"), se = list(cl.robust.se.event), notes = c("Robust standard errors appear in brackets (clustered at the district level)."), notes.align = "l")
+table04_eventstudy <- stargazer(event_study_reg, type="text", keep=c("Constant","time_since_treatment"), se = list(cl.robust.se.event), notes = c("Robust standard errors appear in brackets (clustered at the district level)."), notes.align = "l")
 ```
 
 ```{r}
@@ -407,10 +340,12 @@ cis <- cis[2:4, ]
 # Create dataframe for plotting
 combined_df <- cbind(x, y, cis)
 
-ggplot(combined_df, aes(x=`c(-1, 0, 1)`, y=`summary[2:4, ]`)) +
+fig04_eventstudy <- ggplot(combined_df, aes(x=`c(-1, 0, 1)`, y=`summary[2:4, ]`)) +
   geom_pointrange(aes(ymin=`2.5 %`, ymax=`97.5 %`)) +
   labs(x='Time to Treatment (years)', y='Effect Size (pp of Vote Share)', title='Average Treatment Effect of CJ Visit') +
   geom_line() +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
+
+print(fig04_eventstudy)
 ```

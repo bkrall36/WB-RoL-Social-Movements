@@ -1,77 +1,28 @@
 ---
-title: "Balance Table"
+title: "Balance Table Code"
 author: "Brendon Krall"
-date: "2022-08-23"
+date: "2022-08-27"
 output: html_document
 ---
 
-# Enviroment Setup
-```{r, Housekeeping, message=FALSE, warning=FALSE}
-rm(list=ls()) # Clear working memory 
-library(readxl) # Load Excel files
-library(magrittr) # Make all colnames lower case with no spaces
-library(stringr) # String formatting and replacement
-library(dplyr) # Data wrangling and manipulation
-library(ggplot2) # Data visualization
-library(tidyr) # Nesting and unnesting dataframes
-library(purrr) # Map all function
-library(broom) # Multiple linear regressions
-library(lmtest) # Run linear regressions with robust standard errors 
-library(multiwayvcov) # Generate robust standard 
-library(sandwich) # Generate robust standard errors
-library(stargazer) # Good way to report regression reports
-```
-
-# Data Import
 ```{r, message=FALSE, warning=FALSE}
-setwd("C:/Users/brend/OneDrive/Documents/GitHub/WB-RoL-Social-Movements")
-pslmdf <- read_excel("PSLM Data.xlsx", sheet = 1)
-
-# Data Source: https://www.pbs.gov.pk/publication/pakistan-social-and-living-standards-measurement-survey-pslm-2004-05-provincial
-```
-
-# Data Cleaning 
-```{r}
-# Subset first three rows and remove them from dataframe 
-pslmdf_first3 <- pslmdf[, 1:3]
-pslmdf <- pslmdf[, -c(1:3)]
-
-# Store column names and then store columns with names 
-cnames <- colnames(pslmdf)
-cnames <- cnames[seq(1, length(cnames), 9)]
-
-# Remove row of metadata 
-pslmdf_first3 <- pslmdf_first3[-1,]
-pslmdf <- pslmdf[-1,]
-
-# Select column observations with totals only 
-pslmdf <- pslmdf[seq_len(ncol(pslmdf)) %% 9 == 0]
-
-# Rename total columns manually and using stored column names 
-colnames(pslmdf_first3) <- c('year', 'province_id', 'name')
-colnames(pslmdf) <- cnames
-
-# Add first three rows back 
-pslmdf <- cbind(pslmdf_first3, pslmdf)
-```
-
 # Grouping Data by Treatment Status 
-```{r}
+
 # Create a list that contains districts that were visited by chief justice 
 treated_districts <- c("Peshawar", "Rawalpindi", "Attock", "Jhelum", "Gujrat", "Sargodha", "Faisalabad", "Lahore", "Gujranwala", "Sialkot", "Multan", "Dera Ghazi Khan", "Muzaffargarh", "Sahiwal", "Bahawalpur", "Sukkur", "Larkana", "Shaheed Benazirabad", "Khairpur", "Hyderabad", "Karachi", "Quetta", "Abbottabad", "Okara", "Chakwal", "Khanewal", "Naushehro Feroze", "Hafizabad", "Haripur", "Matiari", "Islamabad", "Chiniot")
 
 # Create a treated dummy column
-pslmdf <- pslmdf %>%
+clean_pslm_data <- clean_pslm_data %>%
   mutate(
     treated = ifelse(name %in% treated_districts, 1, 0)
   )
 
 # Subset the data for the control groups
-pslmdf_control <- pslmdf %>%
+pslmdf_control <- clean_pslm_data %>%
   filter(treated == 0)
 
 # Subset the data for the treatment groups
-pslmdf_treated <- pslmdf %>%
+pslmdf_treated <- clean_pslm_data %>%
   filter(treated == 1)
 
 # De-identify districts
@@ -114,5 +65,7 @@ balance_tbl <- balance_tbl %>%
 
 
 colnames(balance_tbl) <- c("Univisited District Means", "Visited District Means", "P-Value", "Significance Level")
-```
 
+# Save balance table 
+table01_balance <- balance_tbl
+```
