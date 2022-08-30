@@ -18,7 +18,7 @@ df$constituency_dummy <- factor(df$`PA ID`)
 
 # Create Treated 2008 and 2013 variable
 df <- df %>% mutate(
-  treated = ifelse((`1st_visit_year`<= Year), 1, 0)
+  treated = ifelse((`Treated before 2008 elections` == 1), 1, 0)
 )
 
 # Create Visits 2008 and 2013 variable Counts

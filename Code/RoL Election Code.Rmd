@@ -267,18 +267,18 @@ print(pppp_table)
 # Parallel Trend Graphs
 ```{r, warning=FALSE}
 # Subset data for ease of manipulation
-df_subset <- df %>% select(c(Year, Vote_Share.1, 'Party Initials', Treated))
+df_subset <- df %>% select(c(Year, Vote_Share.1, 'Party Initials', treated))
 
 # Rename for clarity
 df_subset <- df_subset %>%
   mutate(
-    Treated = ifelse(Treated == 1, 'Visited', 'Never Visted')
+    treated = ifelse(treated == 1, 'Visited', 'Never Visted')
 )
 
 # Parallel Trend for PML                    
 df_subset %>%
   filter(`Party Initials` == 'PML') %>%
-  ggplot(aes(x = Year, y = Vote_Share.1, color = Treated)) +
+  ggplot(aes(x = Year, y = Vote_Share.1, color = treated)) +
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +
   theme_bw() +
   labs(x = "Year", y = "% of Vote Share", title = "Evolution of Vote Share - PML (Years 1970 to 2012)") +
@@ -289,7 +289,7 @@ df_subset %>%
 # Parallel Trend for PML-N                   
 df_subset %>%
   filter(`Party Initials` == 'PML-N') %>%
-  ggplot(aes(x = Year, y = Vote_Share.1, color = Treated)) +
+  ggplot(aes(x = Year, y = Vote_Share.1, color = treated)) +
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +
   theme_bw() +
   labs(x = "Year", y = "% of Vote Share", title = "Evolution of Vote Share - PML-N (Years 1992 to 2012)") +
@@ -300,7 +300,7 @@ df_subset %>%
 # Parallel Trend for PPPP                    
 df_subset %>%
   filter(`Party Initials` == 'PPPP') %>%
-  ggplot(aes(x = Year, y = Vote_Share.1, color = Treated)) +
+  ggplot(aes(x = Year, y = Vote_Share.1, color = treated)) +
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +
   theme_bw() +
   labs(x = "Year", y = "% of Vote Share", title = "Evolution of Vote Share - PPP (Years 2002 to 2012)") +

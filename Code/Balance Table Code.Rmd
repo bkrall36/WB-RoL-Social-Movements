@@ -8,8 +8,8 @@ output: html_document
 ```{r, message=FALSE, warning=FALSE}
 # Grouping Data by Treatment Status 
 
-# Create a list that contains districts that were visited by chief justice 
-treated_districts <- c("Peshawar", "Rawalpindi", "Attock", "Jhelum", "Gujrat", "Sargodha", "Faisalabad", "Lahore", "Gujranwala", "Sialkot", "Multan", "Dera Ghazi Khan", "Muzaffargarh", "Sahiwal", "Bahawalpur", "Sukkur", "Larkana", "Shaheed Benazirabad", "Khairpur", "Hyderabad", "Karachi", "Quetta", "Abbottabad", "Okara", "Chakwal", "Khanewal", "Naushehro Feroze", "Hafizabad", "Haripur", "Matiari", "Islamabad", "Chiniot")
+# Create a list that contains districts that were visited by chief justice in 2007
+treated_districts <- c('Islamabad', 'Rawalpindi', 'Sukkur', 'Hyderabad', 'Peshawar', 'Lahore', 'Abbottabad', 'Faisalabad', 'Multan')
 
 # Create a treated dummy column
 clean_pslm_data <- clean_pslm_data %>%
@@ -67,5 +67,5 @@ balance_tbl <- balance_tbl %>%
 colnames(balance_tbl) <- c("Univisited District Means", "Visited District Means", "P-Value", "Significance Level")
 
 # Save balance table 
-table01_balance <- balance_tbl
+table01_balance <- table(balance_tbl)
 ```
