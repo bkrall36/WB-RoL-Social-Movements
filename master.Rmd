@@ -14,19 +14,15 @@ rm(list = ls())
 clean_elections_data <- 1 # Cleans elections data 
 clean_pslm_data  <- 1 # Cleans Pakistan social and living standards measurement data
 
-# Construct ...
-
-
 # Output for paper
 table01_balance <- 1 # Creates balance table
-table02_DiDregression <- 1 # Creates regression table (PML)
-table03_DiDregressionOpp <- 1 # Create regression table (Opp)
-table04_eventstudy <- 1 # Create regression table for event study 
+table02_DiDregression <- 1 # Creates regression tables (PML)
+table03_eventstudyregression <- 1 # Create regression table for event study 
 
-fig01_bargraphPML <- 1 # Creates bar graph for PML Party means
-fig02_bargraphPMLN <- 1 # Creates bar graph for PML-N Party means
-fig03_bargraphPPP <- 1 # Creates bar graph for PML Party means 
-fig04_eventstudy <- 1 # # Creates event study graph
+fig01_bargraphs <- 1 # Creates bar graph for parties means
+fig02_differenceinmeans <- 1 # Creates difference in means tables
+fig03_paralleltrends <- 1 # Creates parallel trends graphs 
+fig04_eventstudy <- 1 # Creates event study graph
 
 
 # User path -----------------------------------------------------------------
@@ -69,3 +65,34 @@ sapply(packages, function(x) {
 # Load packages
 invisible(sapply(packages, require, character.only = TRUE))
 
+# Actions ---------------------------------------------------------------
+
+# Cleaning
+if (clean_elections_data) source(
+  paste0(github_path, Code, "Elections Data Cleaning.R"))
+
+if (clean_pslm_data) source(
+  paste0(github_path, Code, "PSLM Data Cleaning.R"))
+
+
+# Output for paper
+if (table01_balance) source(
+  paste0(github_path, Code, "table01_balance.R"))
+
+if (table02_DiDregression) source(
+  paste0(github_path, Code, "table02_DiDregression.R"))
+
+if (table03_eventstudy) source(
+  paste0(github_path, Code, "table03_eventstudy.R"))
+
+if (fig01_bargraphs) source(
+  paste0(github_path, Code, "fig01_bargraphs.R"))
+
+if (fig02_differenceinmeans) source(
+  paste0(github_path, Code, "fig02_differenceinmeans.R"))
+
+if (fig03_paralleltrends) source(
+  paste0(github_path, Code, "fig03_paralleltrends.R"))
+
+if (fig04_eventstudy) source(
+  paste0(github_path, Code, "fig04_eventstudy.R"))
