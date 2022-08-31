@@ -33,4 +33,19 @@ df <- df %>% filter(!is.na(Vote_Share))
 # Store Clean Data
 write_csv(df, paste0(
   Outputs, "clean_elections_data.csv"))
+
+# Subset Dataset for Regression Analysis
+# Restrict analysis to years between 2002 and 2008
+df_02_08 <- df %>%
+  filter(Year >= 2002 & Year <= 2008)
+
+# Subset data by party affiliation 
+df_pml <- df_02_08 %>%
+  filter(`Party Initials` == 'PML')
+
+df_pml_n <- df_02_08 %>%
+  filter(`Party Initials` == 'PML-N')
+
+df_pppp <- df_02_08 %>%
+  filter(`Party Initials` == 'PPPP')
 ```
