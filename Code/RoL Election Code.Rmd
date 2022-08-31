@@ -5,26 +5,8 @@ date: "8/8/2022"
 output: html_document
 ---
 
-# Subset Dataset for Regression Analysis
-```{r}
-# Restrict analysis to years between 2002 and 2008
-df_02_08 <- df %>%
-  filter(Year >= 2002 & Year <= 2008)
-
-# Subset data by party affiliation 
-df_pml <- df_02_08 %>%
-  filter(`Party Initials` == 'PML')
-
-df_pml_n <- df_02_08 %>%
-  filter(`Party Initials` == 'PML-N')
-
-df_pppp <- df_02_08 %>%
-  filter(`Party Initials` == 'PPPP')
-```
-
-
 # Perform Regression Analysis - PML
-```{r}
+```{r, echo=False}
 # OLS 
 reg_pml <- lm(Vote_Share.1 ~ treated, data = df_pml)
 # cluster-robust SEs for reg_pml
@@ -53,7 +35,7 @@ table02_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, type="tex
 ```
 
 # Perform Regression Analysis for Opposition 
-```{r}
+```{r, echo=False}
 ## PML-N
 # OLS with TWFE 
 reg_pmln3 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy, data = df_pml_n)
@@ -85,7 +67,7 @@ table03_DiDregressionOpp <- stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4, t
 ```
 
 # Construct Bar Graph Variables 
-```{r}
+```{r, echo=False}
 df_02_08_bargraphs <- df_02_08 %>%
 # Filter for specific political parties of interest
   filter(`Party Initials` %in% c('PML', 'PML-N', 'PPPP')) %>%
@@ -104,7 +86,7 @@ df_02_08_bargraphs$group <- ifelse(df_02_08_bargraphs$group == 1, 'Visited', 'Ne
 ```
 
 # Bar Chart of Vote Share PML
-```{r}
+```{r, echo=False}
 # Subset data for PML
 pml_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PML')
@@ -127,7 +109,7 @@ print(fig01_bargraphPML)
 ```
 
 # Difference in Means of Vote Share PML Summary Table
-```{r, message=FALSE}
+```{r, message=FALSE, echo=False}
 # Summarize and save as a table to graph 
 pml_table <- df_02_08 %>% 
   filter((Year == 2002 | 2008), `Party Initials` == 'PML') %>%
@@ -158,7 +140,7 @@ print(pml_table)
 ```
 
 # Bar Chart of Vote Share PML-N
-```{r}
+```{r, echo=False}
 # Subset data for PML
 pmln_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PML-N')
@@ -182,7 +164,7 @@ print(fig02_bargraphPMLN)
 ```
 
 # Difference in Means of Vote Share PML-N
-```{r, message=FALSE}
+```{r, message=FALSE, echo=False}
 pmln_table <- df_02_08 %>% 
   filter((Year == 2002 | 2008), `Party Initials` == 'PML-N') %>%
   group_by(Year,`Treated before 2008 elections`) %>%
@@ -212,7 +194,7 @@ print(pmln_table)
 ```
 
 # Bar Chart of Vote Share PPPP
-```{r}
+```{r, echo=False}
 # Subset data for PML
 pppp_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PPPP')
@@ -235,7 +217,7 @@ print(fig03_bargraphPPP)
 ```
 
 # Difference in Means of Vote Share PPPP
-```{r, message=FALSE}
+```{r, message=FALSE, echo=False}
 pppp_table <- df_02_08 %>% 
   filter((Year == 2002 | 2008), `Party Initials` == 'PPPP') %>%
   group_by(Year,`Treated before 2008 elections`) %>%
@@ -265,7 +247,7 @@ print(pppp_table)
 ```
 
 # Parallel Trend Graphs
-```{r, warning=FALSE}
+```{r, warning=FALSE, echo=False}
 # Subset data for ease of manipulation
 df_subset <- df %>% select(c(Year, Vote_Share.1, 'Party Initials', treated))
 
@@ -310,7 +292,7 @@ df_subset %>%
 ```
 
 # Event Study 
-```{r}
+```{r, echo=False}
 # Construct a variable that, for treated units, will take the value of the 
 # number of years leading up to it (+3,-3). For untreated units, or treated 
 # units that will be treated 3 or more years in the future,it takes the value -4
@@ -327,7 +309,7 @@ cl.robust.se.event <- sqrt(diag(cl.cov.event))
 table04_eventstudy <- stargazer(event_study_reg, type="text", keep=c("Constant","time_since_treatment"), se = list(cl.robust.se.event), notes = c("Robust standard errors appear in brackets (clustered at the district level)."), notes.align = "l")
 ```
 
-```{r}
+```{r, echo=False}
 # Store the beta coefficients as X and Y pairs for plotting 
 summary <- as.data.frame(event_study_reg$coefficients)
 y <- as.data.frame(summary[2:4,])
