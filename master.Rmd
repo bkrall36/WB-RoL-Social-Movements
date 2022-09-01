@@ -6,40 +6,64 @@ output: html_document
 ---
 
 # Master script for Rule of Law & Social Movements 
+
+```{r}
 rm(list = ls())
+```
 
 # Select actions ------------------------------------------------------------
 
 # Cleaning
+
+```{r}
 clean_elections_data <- 1 # Cleans elections data 
 clean_pslm_data  <- 1 # Cleans Pakistan social and living standards measurement data
+```
 
 # Output for paper
+
+```{r}
 table01_balance <- 1 # Creates balance table
 table02_DiDregression <- 1 # Creates regression tables (PML)
 table03_eventstudyregression <- 1 # Create regression table for event study 
+
 
 fig01_bargraphs <- 1 # Creates bar graph for parties means
 fig02_differenceinmeans <- 1 # Creates difference in means tables
 fig03_paralleltrends <- 1 # Creates parallel trends graphs 
 fig04_eventstudy <- 1 # Creates event study graph
 
+```
+
 
 # User path -----------------------------------------------------------------
 
 # Brendon's data
+
+```{r}
 if (Sys.getenv("USER") == "") {
 #  data_path <- "SULTAN DROP BOX LINK"
-  github_path <- "/Users/brend/OneDrive/Documents/GitHub/WB-RoL-Social-Movements/"
+  github_path <- "C:/Users/Ilias/Documents/GitHub/WB-RoL-Social-Movements/"
   Sys.setenv(RSTUDIO_PANDOC = "/Applications/RStudio.app/Contents/MacOS/quarto/bin")
 }
+```
+
+
+
 
 # Folder globals ------------------------------------------------------------
+
+```{r}
 Inputs <- paste0(github_path, 'Inputs/')
 Outputs <- paste0(github_path, 'Outputs/')
 Code <- paste0(github_path, 'Code/')
+```
+
+
 
 # Packages used --------------------------------------------------------------
+
+```{r}
 packages <- c(
   "readxl",
   "magrittr",
@@ -54,28 +78,49 @@ packages <- c(
   "sandwich",
   "stargazer",
   "readr")
+```
+
+
+
 
 # Install packages
+
+```{r}
 sapply(packages, function(x) {
   if (!(x %in% installed.packages())) {
     install.packages(x, dependencies = TRUE)
   }
 })
+```
+
+
+
   
 # Load packages
+```{r}
 invisible(sapply(packages, require, character.only = TRUE))
+```
+
+
 
 # Actions ---------------------------------------------------------------
 
 # Cleaning
+
+```{r}
 if (clean_elections_data) source(
   paste0(Code, "elections_data_cleaning.R"))
 
 if (clean_pslm_data) source(
   paste0(Code, "pslm_data_cleaning.R"))
 
+```
+
+
 
 # Output for paper
+
+```{r}
 if (table01_balance) source(
   paste0(Code, "table01_balance.R"))
 
@@ -96,5 +141,8 @@ if (fig03_paralleltrends) source(
 
 if (fig04_eventstudy) source(
   paste0(Code, "fig04_eventstudy.R"))
+```
+
+
   
   
