@@ -1,3 +1,6 @@
+# Set WD for Outputs
+setwd(Outputs)
+
 # Difference in Means of Vote Share PML Summary Table
 # Summarize and save as a table to graph 
 pml_table <- df_02_08 %>% 
