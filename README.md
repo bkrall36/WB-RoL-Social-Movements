@@ -21,35 +21,43 @@ Elections Data - Variable Descriptions
 <table>
   <tr>
     <th>Variable</th>
+    <th>Data Type</th>
     <th>Description</th>
   </tr>
   <tr>
     <td>Year</td>
-    <td>...</td>
+    <td>Numerical</td>
+    <td>A variable that describes the year that the election occurred.</td>
   </tr>
    <tr>
     <td>PA ID</td>
-    <td>...</td>
+    <td>String</td>
+    <td>A variable that describes the Constituency from which the election district is a part of.</td>
   </tr>
     <tr>
     <td>Party Initials</td>
-    <td>...</td>
+    <td>String</td>
+    <td>A variable that outlines the major Pakistani parties which received votes for any given year.</td>
   </tr>
   <tr>
     <td>Vote_Share.1</td>
-    <td>...</td>
+    <td>Numerical</td>
+    <td>A variable that lists the percentage points of the vote share.</td>
   </tr>
     <tr>
     <td>treated</td>
-    <td>...</td>
-  </tr>
-    <tr>
-    <td>incidental_treatment</td>
-    <td>...</td>
+    <td>Dummy</td>
+    <td>A dummy variable constructed to designate if a district has been visited before 2008, taking 1 if the CJ visited and 0 if the CJ did not visit.</td>
   </tr>
     <tr>
     <td>planned_treatment</td>
-    <td>...</td>
+    <td>Dummy</td>
+    <td>A dummy variable constructed to designate if a district has was a planned visit (start or stop location), taking 1 if the CJ visited and 0 if the CJ did not visit.</td>
+  </tr>
+    <tr>
+    <td>incidental_treatment</td>
+    <td>Dummy</td>
+    <td>A dummy variable constructed to designate if a district was an incidental visit (along the route of the CJ), taking 1 if the CJ visited and 0 if the CJ did not visit.</td>
   </tr>
 </table>
   
