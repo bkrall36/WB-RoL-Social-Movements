@@ -1,11 +1,3 @@
----
-title: "Balance Table Code"
-author: "Brendon Krall"
-date: "2022-08-27"
-output: html_document
----
-
-```{r, message=FALSE, warning=FALSE, echo=False}
 # Grouping Data by Treatment Status 
 
 # Create a list that contains districts that were visited by chief justice in 2007
@@ -68,4 +60,3 @@ colnames(balance_tbl) <- c("Univisited District Means", "Visited District Means"
 
 # Save balance table 
 table01_balance <- table(balance_tbl)
-```

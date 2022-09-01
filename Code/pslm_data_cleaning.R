@@ -1,12 +1,3 @@
----
-title: "Balance Table"
-author: "Brendon Krall"
-date: "2022-08-23"
-output: html_document
----
-
-# Import and Data Cleaning
-```{r, message=FALSE, warning=FALSE}
 # Import Data 
 pslmdf <- read_excel(paste0(Inputs, "PSLM Data.xlsx"), sheet = 1)
 
@@ -35,5 +26,5 @@ clean_pslm_data <- cbind(pslmdf_first3, pslmdf)
 # Store Clean Data
 write_csv(clean_pslm_data, paste0(
   Outputs, "clean_pslm_data.csv"))
-```
+
 # Data Source: https://www.pbs.gov.pk/publication/pakistan-social-and-living-standards-measurement-survey-pslm-2004-05-provincial

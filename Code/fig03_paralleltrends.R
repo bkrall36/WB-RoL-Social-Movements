@@ -1,12 +1,4 @@
----
-title: "fig03_paralleltrends"
-author: "Brendon Krall"
-date: "2022-09-01"
-output: html_document
----
-
 # Parallel Trend Graphs
-```{r, warning=FALSE, echo=False}
 # Subset data for ease of manipulation
 df_subset <- df %>% select(c(Year, Vote_Share.1, 'Party Initials', treated))
 
@@ -14,7 +6,7 @@ df_subset <- df %>% select(c(Year, Vote_Share.1, 'Party Initials', treated))
 df_subset <- df_subset %>%
   mutate(
     treated = ifelse(treated == 1, 'Visited', 'Never Visted')
-)
+  )
 
 # Parallel Trend for PML                    
 df_subset %>%
@@ -48,4 +40,3 @@ df_subset %>%
   geom_vline(xintercept = 2007) +
   scale_color_manual('Treated', values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
-```

@@ -69,30 +69,30 @@ invisible(sapply(packages, require, character.only = TRUE))
 
 # Cleaning
 if (clean_elections_data) source(
-  paste0(github_path, Code, "Elections Data Cleaning.R"))
+  paste0(Code, "elections_data_cleaning.R"))
 
 if (clean_pslm_data) source(
-  paste0(github_path, Code, "PSLM Data Cleaning.R"))
+  paste0(Code, "pslm_data_cleaning.R"))
 
 
 # Output for paper
 if (table01_balance) source(
-  paste0(github_path, Code, "table01_balance.R"))
+  paste0(Code, "table01_balance.R"))
 
 if (table02_DiDregression) source(
-  paste0(github_path, Code, "table02_DiDregression.R"))
+  paste0(Code, "table02_DiDregression.R"))
 
 if (table03_eventstudy) source(
-  paste0(github_path, Code, "table03_eventstudy.R"))
+  paste0(Code, "table03_eventstudy.R"))
 
 if (fig01_bargraphs) source(
-  paste0(github_path, Code, "fig01_bargraphs.R"))
+  paste0(Code, "fig01_bargraphs.R"))
 
 if (fig02_differenceinmeans) source(
-  paste0(github_path, Code, "fig02_differenceinmeans.R"))
+  paste0(Code, "fig02_differenceinmeans.R"))
 
 if (fig03_paralleltrends) source(
-  paste0(github_path, Code, "fig03_paralleltrends.R"))
+  paste0(Code, "fig03_paralleltrends.R"))
 
 if (fig04_eventstudy) source(
-  paste0(github_path, Code, "fig04_eventstudy.R"))
+  paste0(Code, "fig04_eventstudy.R"))

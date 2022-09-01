@@ -1,12 +1,5 @@
----
-title: "Elections Data Cleaning"
-author: "Brendon Krall"
-date: "2022-08-27"
-output: html_document
----
-
 # Data Import and Cleaning 
-```{r, message=FALSE, warning=FALSE}
+
 df <- read_excel(paste0(Inputs, "Elections_Final_10.08.xlsx"), sheet = 1)
 
 # Prepare Linear Regression Model Terms and Dummy Variables
@@ -48,4 +41,4 @@ df_pml_n <- df_02_08 %>%
 
 df_pppp <- df_02_08 %>%
   filter(`Party Initials` == 'PPPP')
-```
+

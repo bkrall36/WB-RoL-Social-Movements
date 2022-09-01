@@ -1,16 +1,8 @@
----
-title: "fig01_bargraphs"
-author: "Brendon Krall"
-date: "2022-09-01"
-output: html_document
----
-
 # Construct Bar Graph Variables 
-```{r, echo=False}
 df_02_08_bargraphs <- df_02_08 %>%
-# Filter for specific political parties of interest
+  # Filter for specific political parties of interest
   filter(`Party Initials` %in% c('PML', 'PML-N', 'PPPP')) %>%
-# Calculate summary statistics used to build confidence intervals 
+  # Calculate summary statistics used to build confidence intervals 
   group_by(`Party Initials`, Year, `Treated before 2008 elections`) %>%
   summarise( 
     n=n(),
@@ -18,14 +10,13 @@ df_02_08_bargraphs <- df_02_08 %>%
     sd=sd(Vote_Share.1)) %>%
   mutate(se=sd/sqrt(n),
          ic=(se * qt((1-0.05)/2 + .5, n-1))) %>%
-# Rename column name and binary variable dummys to characters 
+  # Rename column name and binary variable dummys to characters 
   rename(group = 'Treated before 2008 elections') 
 
 df_02_08_bargraphs$group <- ifelse(df_02_08_bargraphs$group == 1, 'Visited', 'Never Visited')
-```
+
 
 # Bar Chart of Vote Share PML
-```{r, echo=False}
 # Subset data for PML
 pml_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PML')
@@ -41,10 +32,9 @@ fig01_bargraphPML <- ggplot(data = pml_bar, aes(x=factor(Year), y=mean, groups=g
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
 print(fig01_bargraphPML)
-```
+
 
 # Bar Chart of Vote Share PML-N
-```{r, echo=False}
 # Subset data for PML
 pmln_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PML-N')
@@ -60,10 +50,9 @@ fig02_bargraphPMLN <- ggplot(data = pmln_bar, aes(x=factor(Year), y=mean, groups
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
 print(fig02_bargraphPMLN)
-```
+
 
 # Bar Chart of Vote Share PPPP
-```{r, echo=False}
 # Subset data for PML
 pppp_bar <- df_02_08_bargraphs %>%
   filter(`Party Initials` == 'PPPP')
@@ -79,4 +68,3 @@ fig03_bargraphPPP <- ggplot(data = pppp_bar, aes(x=factor(Year), y=mean, groups=
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
 print(fig03_bargraphPPP)
-```

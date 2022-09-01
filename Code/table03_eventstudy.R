@@ -1,12 +1,4 @@
----
-title: "table03_eventstudyregression"
-author: "Brendon Krall"
-date: "2022-09-01"
-output: html_document
----
-
 # Event Study 
-```{r, echo=False}
 # Construct a variable that, for treated units, will take the value of the 
 # number of years leading up to it (+3,-3). For untreated units, or treated 
 # units that will be treated 3 or more years in the future,it takes the value -4
@@ -20,5 +12,4 @@ event_study_reg <- lm(Vote_Share.1 ~ factor(time_since_treatment) + constituency
 cl.cov.event <- cluster.vcov(event_study_reg, df$`PA ID`) 
 cl.robust.se.event <- sqrt(diag(cl.cov.event))
 
-table04_eventstudy <- stargazer(event_study_reg, type="text", keep=c("Constant","time_since_treatment"), se = list(cl.robust.se.event), dep.var.caption = '', notes = c("Robust standard errors appear in brackets (clustered at the district level)."), notes.align = "l", keep.stat=c('n', 'adj.rsq', 'f'), add.lines = list("Mean" = c("Mean", round(mean(df$Vote_Share.1), 2))))
-```
+table03_eventstudy <- stargazer(event_study_reg, type="text", keep=c("Constant","time_since_treatment"), se = list(cl.robust.se.event), dep.var.caption = '', notes = c("Robust standard errors appear in brackets (clustered at the district level)."), notes.align = "l", keep.stat=c('n', 'adj.rsq', 'f'), add.lines = list("Mean" = c("Mean", round(mean(df$Vote_Share.1), 2))))
