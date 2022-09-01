@@ -9,7 +9,7 @@ df_subset <- df_subset %>%
   )
 
 # Parallel Trend for PML                    
-df_subset %>%
+pml_trends <- df_subset %>%
   filter((`Party Initials` == 'PML') & (Year >= 1997)) %>%
   ggplot(aes(x = Year, y = Vote_Share.1, color = treated)) +
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +
@@ -19,8 +19,10 @@ df_subset %>%
   scale_color_manual('Treated', values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
 
+
+
 # Parallel Trend for PML-N                   
-df_subset %>%
+pmln_trends <- df_subset %>%
   filter((`Party Initials` == 'PML-N') & (Year >= 1997)) %>%
   ggplot(aes(x = Year, y = Vote_Share.1, color = treated)) +
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +
@@ -31,7 +33,7 @@ df_subset %>%
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
 
 # Parallel Trend for PPPP                    
-df_subset %>%
+ppp_trends <- df_subset %>%
   filter(`Party Initials` == 'PPPP') %>%
   ggplot(aes(x = Year, y = Vote_Share.1, color = treated)) +
   stat_summary(fun.y = mean, geom = 'line', size = 1.25) +

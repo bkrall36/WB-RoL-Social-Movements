@@ -23,7 +23,24 @@ reg_pml4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count,
 cl.cov.pml4 <- cluster.vcov(reg_pml4, df_pml$`PA ID`) 
 cl.robust.se.pml4 <- sqrt(diag(cl.cov.pml4))
 
-table02_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, type="text", title="Effect of CJ visits on vote share for General Musharraf PML - Impact on Dicator’s Party", keep = c('Constant','treated', 'year_dummy2008', 'count'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts','Year Dummy (2008)', 'Controls'), column.labels=c('OLS', 'OLS w/ Year FE', 'TWFE', 'TWFE w/ Controls'), dep.var.caption = '', dep.var.labels.include = FALSE, se = list(cl.robust.se.pml1, cl.robust.se.pml2, cl.robust.se.pml3, cl.robust.se.pml4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of PML party in 2008 provincial", "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  "district. Controls include: # of candidates in a district (count)."), notes.align = "l", keep.stat=c('n', 'adj.rsq', 'f'), add.lines = list("Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2))))
+table02_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, 
+                                   type="text", 
+                                   title="Effect of CJ visits on vote share for General Musharraf PML - Impact on Dicator’s Party", 
+                                   keep = c('Constant','treated', 'year_dummy2008', 'count'), 
+                                   order=c('Constant','treated'), 
+                                   covariate.labels=c('Unvisited Districts', 'Visited Districts','Year Dummy (2008)', 'Controls'), 
+                                   column.labels=c('OLS', 'OLS w/ Year FE', 'TWFE', 'TWFE w/ Controls'), 
+                                   dep.var.caption = '', 
+                                   dep.var.labels.include = FALSE, 
+                                   se = list(cl.robust.se.pml1, cl.robust.se.pml2, cl.robust.se.pml3, cl.robust.se.pml4), 
+                                   notes = c("Robust standard errors appear in brackets (clustered at the district level).",  
+                                             "The table presents DiD estimation of the effect of Chief Justice visits to districts of", 
+                                             "Pakistan before 2008 elections on the share of votes in favour of PML party in 2008 provincial", 
+                                             "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  
+                                             "district. Controls include: # of candidates in a district (count)."),
+                                   notes.align = "l", 
+                                   keep.stat=c('n', 'adj.rsq', 'f'), 
+                                   add.lines = list("Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2))))
 
 
 # Perform Regression Analysis for Opposition 
@@ -54,4 +71,20 @@ cl.cov.pppp4 <- cluster.vcov(reg_pppp4, df_pppp$`PA ID`)
 cl.robust.se.pppp4 <- sqrt(diag(cl.cov.pppp4))
 
 # Create Opposition (PML-N and PPP) Regression Table
-table03_DiDregressionOpp <- stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4, type="text", title="Effect of CJ visits on vote share for the Opposition (PML-N & PPP)", keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Year Dummy (2008)', 'Controls'), column.labels=c('PML-N: TWFE', 'PML-N: TWFE w/ Controls', 'PPP: TWFE', 'PPP: TWFE w/ Controls'), dep.var.caption = '', dep.var.labels.include = FALSE, se = list(cl.robust.se.pmln3, cl.robust.se.pmln4, cl.robust.se.pppp3, cl.robust.se.pppp4), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in favour of opposition parties in 2008", "provincial and national elections (compare to 2002 elections). Outcome variable is visit to a",  "given district. Controls include: # of candidates in a district (count)."), notes.align = "l", keep.stat=c('n', 'adj.rsq', 'f'), add.lines = list("Mean" = c("Mean", round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))))
+table03_DiDregressionOpp <- stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4, 
+                                      type="text", 
+                                      title="Effect of CJ visits on vote share for the Opposition (PML-N & PPP)", 
+                                      keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), 
+                                      covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Year Dummy (2008)', 'Controls'), 
+                                      column.labels=c('PML-N: TWFE', 'PML-N: TWFE w/ Controls', 'PPP: TWFE', 'PPP: TWFE w/ Controls'), 
+                                      dep.var.caption = '', 
+                                      dep.var.labels.include = FALSE, 
+                                      se = list(cl.robust.se.pmln3, cl.robust.se.pmln4, cl.robust.se.pppp3, cl.robust.se.pppp4), 
+                                      notes = c("Robust standard errors appear in brackets (clustered at the district level).",
+                                                "The table presents DiD estimation of the effect of Chief Justice visits to districts of",
+                                                "Pakistan before 2008 elections on the share of votes in favour of opposition parties in 2008",
+                                                "provincial and national elections (compare to 2002 elections). Outcome variable is visit to a",
+                                                "given district. Controls include: # of candidates in a district (count)."), 
+                                      notes.align = "l", 
+                                      keep.stat=c('n', 'adj.rsq', 'f'), 
+                                      add.lines = list("Mean" = c("Mean", round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))))

@@ -31,8 +31,6 @@ fig01_bargraphPML <- ggplot(data = pml_bar, aes(x=factor(Year), y=mean, groups=g
   theme(legend.position="right", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
-print(fig01_bargraphPML)
-
 
 # Bar Chart of Vote Share PML-N
 # Subset data for PML
@@ -49,8 +47,6 @@ fig02_bargraphPMLN <- ggplot(data = pmln_bar, aes(x=factor(Year), y=mean, groups
   theme(legend.position="right", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
 
-print(fig02_bargraphPMLN)
-
 
 # Bar Chart of Vote Share PPPP
 # Subset data for PML
@@ -66,5 +62,3 @@ fig03_bargraphPPP <- ggplot(data = pppp_bar, aes(x=factor(Year), y=mean, groups=
   theme_light() + 
   theme(legend.position="right", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
-
-print(fig03_bargraphPPP)
