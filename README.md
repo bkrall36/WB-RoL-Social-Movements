@@ -17,7 +17,42 @@ In order to complete the analysis, follow these steps:
 The output will be stored in the folder 'Outputs,' which will be populated when you run the individuals 'Code' scripts. 
 
 Overview of Input Data: 
-VARIABLE NAMES
+Elections Data - Variable Descriptions
+<table>
+  <tr>
+    <th>Variable</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>Year</td>
+    <td>...</td>
+  </tr>
+   <tr>
+    <td>PA ID</td>
+    <td>...</td>
+  </tr>
+    <tr>
+    <td>Party Initials</td>
+    <td>...</td>
+  </tr>
+  <tr>
+    <td>Vote_Share.1</td>
+    <td>...</td>
+  </tr>
+    <tr>
+    <td>treated</td>
+    <td>...</td>
+  </tr>
+    <tr>
+    <td>incidental_treatment</td>
+    <td>...</td>
+  </tr>
+    <tr>
+    <td>planned_treatment</td>
+    <td>...</td>
+  </tr>
+</table>
+  
 
 
 Important: 
