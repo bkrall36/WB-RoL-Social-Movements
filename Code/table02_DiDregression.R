@@ -88,3 +88,88 @@ table03_DiDregressionOpp <- stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4,
                                       notes.align = "l", 
                                       keep.stat=c('n', 'adj.rsq', 'f'), 
                                       add.lines = list("Mean" = c("Mean", round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))))
+
+# Perform Regression Analysis (incidental effects)
+# PLM
+# OLS with TWFE 
+reg_pmlr1 <- lm(Vote_Share.1 ~ incidental_treatment + year_dummy + constituency_dummy, data = df_pml)
+# cluster-robust SEs for reg_pml3
+cl.cov.pmlr1 <- cluster.vcov(reg_pmlr1, df_pml$`PA ID`) 
+cl.robust.se.pmlr1 <- sqrt(diag(cl.cov.pmlr1))
+
+# OLS with TWFE + 'count' control variable 
+reg_pmlr2 <- lm(Vote_Share.1 ~ incidental_treatment + year_dummy + constituency_dummy + count, data = df_pml)
+# cluster-robust SEs for reg_pml4
+cl.cov.pmlr2 <- cluster.vcov(reg_pmlr2, df_pml$`PA ID`) 
+cl.robust.se.pmlr2 <- sqrt(diag(cl.cov.pmlr2))
+
+## PML-N
+# OLS with TWFE 
+reg_pmlnr1 <- lm(Vote_Share.1 ~ incidental_treatment + year_dummy + constituency_dummy, data = df_pml_n)
+# cluster-robust SEs for reg_pmln3
+cl.cov.pmlnr1 <- cluster.vcov(reg_pmlnr1, df_pml_n$`PA ID`) 
+cl.robust.se.pmlnr1 <- sqrt(diag(cl.cov.pmlnr1))
+
+# OLS with TWFE + 'count' control variable 
+reg_pmlnr2 <- lm(Vote_Share.1 ~ incidental_treatment + year_dummy + constituency_dummy + count, data = df_pml_n)
+# cluster-robust SEs for reg_pmln4
+cl.cov.pmlnr2 <- cluster.vcov(reg_pmlnr2, df_pml_n$`PA ID`) 
+cl.robust.se.pmlnr2 <- sqrt(diag(cl.cov.pmlnr2))
+
+## PPP
+# OLS with TWFE 
+reg_pppr1 <- lm(Vote_Share.1 ~ incidental_treatment + year_dummy + constituency_dummy, data = df_pppp)
+# cluster-robust SEs for reg_pppp3
+cl.cov.pppr1 <- cluster.vcov(reg_pppr1, df_pppp$`PA ID`) 
+cl.robust.se.pppr1 <- sqrt(diag(cl.cov.pppr1))
+
+# OLS with TWFE + 'count' control variable 
+reg_pppr2 <- lm(Vote_Share.1 ~ incidental_treatment + year_dummy + constituency_dummy + count, data = df_pppp)
+# cluster-robust SEs for reg_pppp4
+cl.cov.pppr2 <- cluster.vcov(reg_pppr2, df_pppp$`PA ID`) 
+cl.robust.se.pppr2 <- sqrt(diag(cl.cov.pppr2))
+
+incidental_regressions <- stargazer(reg_pmlr2, reg_pmlnr2, reg_pppr2,  type="text", title="Effect of Incidental CJ visits on vote share ", keep = c('Constant','incidental_treatment', 'count'), order=c('Constant','incidental_treatment'), covariate.labels=c('Unvisited Districts', 'Incidental Districts', 'Controls'), column.labels=c('PLM', 'PLM-N', 'PPP'), dep.var.caption = '', dep.var.labels.include = FALSE, se = list(cl.robust.se.pmlr2, cl.robust.se.pmlnr2, cl.robust.se.pppr2), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in 2008 provincial", "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  "district. Controls include: # of candidates in a district (count)."), notes.align = "l", keep.stat=c('n', 'adj.rsq', 'f'), add.lines = list("Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))))
+
+
+# Perform Regression Analysis (planned effects)
+# PLM
+# OLS with TWFE 
+reg_pmlp1 <- lm(Vote_Share.1 ~ planned_treatment + year_dummy + constituency_dummy, data = df_pml)
+# cluster-robust SEs for reg_pml3
+cl.cov.pmlp1 <- cluster.vcov(reg_pmlp1, df_pml$`PA ID`) 
+cl.robust.se.pmlp1 <- sqrt(diag(cl.cov.pmlp1))
+
+# OLS with TWFE + 'count' control variable 
+reg_pmlp2 <- lm(Vote_Share.1 ~ planned_treatment + year_dummy + constituency_dummy + count, data = df_pml)
+# cluster-robust SEs for reg_pml4
+cl.cov.pmlp2 <- cluster.vcov(reg_pmlp2, df_pml$`PA ID`) 
+cl.robust.se.pmlp2 <- sqrt(diag(cl.cov.pmlp2))
+
+## PML-N
+# OLS with TWFE 
+reg_pmlnp1 <- lm(Vote_Share.1 ~ planned_treatment + year_dummy + constituency_dummy, data = df_pml_n)
+# cluster-robust SEs for reg_pmln3
+cl.cov.pmlnp1 <- cluster.vcov(reg_pmlnp1, df_pml_n$`PA ID`) 
+cl.robust.se.pmlnp1 <- sqrt(diag(cl.cov.pmlnp1))
+
+# OLS with TWFE + 'count' control variable 
+reg_pmlnp2 <- lm(Vote_Share.1 ~ planned_treatment + year_dummy + constituency_dummy + count, data = df_pml_n)
+# cluster-robust SEs for reg_pmln4
+cl.cov.pmlnp2 <- cluster.vcov(reg_pmlnp2, df_pml_n$`PA ID`) 
+cl.robust.se.pmlnp2 <- sqrt(diag(cl.cov.pmlnp2))
+
+## PPP
+# OLS with TWFE 
+reg_pppp1 <- lm(Vote_Share.1 ~ planned_treatment + year_dummy + constituency_dummy, data = df_pppp)
+# cluster-robust SEs for reg_pppp3
+cl.cov.pppp1 <- cluster.vcov(reg_pppp1, df_pppp$`PA ID`) 
+cl.robust.se.pppp1 <- sqrt(diag(cl.cov.pppp1))
+
+# OLS with TWFE + 'count' control variable 
+reg_pppp2 <- lm(Vote_Share.1 ~ planned_treatment + year_dummy + constituency_dummy + count, data = df_pppp)
+# cluster-robust SEs for reg_pppp4
+cl.cov.pppr2 <- cluster.vcov(reg_pppp2, df_pppp$`PA ID`) 
+cl.robust.se.pppp2 <- sqrt(diag(cl.cov.pppr2))
+
+planned_regressions <- stargazer(reg_pmlp2, reg_pmlnp2, reg_pppp2, type="text", title="Effect of Planned CJ visits on vote share ", keep = c('Constant','planned_treatment', 'count'), order=c('Constant','planned_treatment'), covariate.labels=c('Constant', 'Planned Districts', 'Controls'), column.labels=c('PLM', 'PLM-N', 'PPP'), dep.var.caption = '', dep.var.labels.include = FALSE, se = list(cl.robust.se.pmlp2, cl.robust.se.pmlnp2, cl.robust.se.pppp2), notes = c("Robust standard errors appear in brackets (clustered at the district level).",  "The table presents DiD estimation of the effect of Chief Justice visits to districts of", "Pakistan before 2008 elections on the share of votes in 2008 provincial", "and national elections (compare to 2002 elections). Outcome variable is visit to a given",  "district. Controls include: # of candidates in a district (count)."), notes.align = "l", keep.stat=c('n', 'adj.rsq', 'f'), add.lines = list("Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))))

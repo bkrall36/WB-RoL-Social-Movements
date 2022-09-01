@@ -14,6 +14,16 @@ df <- df %>% mutate(
   treated = ifelse((`Treated before 2008 elections` == 1), 1, 0)
 )
 
+# Create vector with list of names of planned and incidental visit districts
+planned_districts <- c('Islamabad', 'Rawalpindi', 'Sukkur', 'Hyderabad', 'Peshawar', 'Lahore', 'Abbottabad', 'Faisalabad', 'Multan')
+incidental_districts <- c('Moro (Naushehro Feroz)', 'Khairpur', 'Larkana', 'Nawabshah',  'Matiari', 'Attock', 'Gujarat', 'Gujranwala', 'Taxila', 'Haripur', 'Chakwal', 'Pindi Bhattian', 'Chiniot', 'Sahiwal', 'Okara', 'Chichawatni', 'Khanewal')
+
+# Create Incidental Visit Treatment Indicator
+df <- df %>% mutate(
+  incidental_treatment = ifelse((districts %in% incidental_districts), 1, 0),
+  planned_treatment = ifelse((districts %in% planned_districts), 1, 0)
+)
+
 # Create Visits 2008 and 2013 variable Counts
 #df <- df %>% mutate(
 #  treated_2008_n = ifelse((Year == 2008 & Treated == 1), 'Visits before 2008 elections', 0),
