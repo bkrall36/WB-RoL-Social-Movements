@@ -22,4 +22,3 @@ VARIABLE NAMES
 
 Important: 
 The RoL ELection Analysis.Rmd script can be ran and knitted to display the entire report.
-...
