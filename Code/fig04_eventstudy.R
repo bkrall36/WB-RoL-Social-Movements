@@ -1,3 +1,6 @@
+# Set WD for Outputs
+setwd(Outputs)
+
 # Event Study Figure
 # Store the beta coefficients as X and Y pairs for plotting 
 summary <- as.data.frame(event_study_reg$coefficients)
@@ -17,5 +20,4 @@ fig04_eventstudy <- ggplot(combined_df, aes(x=`c(-1, 0, 1)`, y=`summary[2:4, ]`)
   geom_line() +
   theme_bw() +
   theme(plot.title = element_text(hjust = 0.5))
-
-print(fig04_eventstudy)
+ggsave("eventstudy.pdf")
