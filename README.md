@@ -12,13 +12,14 @@ System Requirements:
 
 In order to complete the analysis, follow these steps: 
 1. Open the 'masterscript.R' and run the file. Ensure the github_path object is mapped to your computer. 
-2. Open the 'Code' folder, then run the R scripts with 'Cleaning' in their title, followed by the R scripts with 'Code' to get the results. 
+2. Run the 'Cleaning' R scripts first, then designate which outputs you would like to run by  specifying 1 or 0. 
 
 The output will be stored in the folder 'Outputs,' which will be populated when you run the individuals 'Code' scripts. 
 
 Overview of Input Data: 
-
+VARIABLE NAMES
 
 
 Important: 
+The RoL ELection Analysis.Rmd script can be ran and knitted to display the entire report.
 ...
