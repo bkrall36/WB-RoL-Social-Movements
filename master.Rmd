@@ -43,7 +43,7 @@ fig04_eventstudy <- 1 # Creates event study graph
 ```{r}
 if (Sys.getenv("USER") == "") {
 #  data_path <- "SULTAN DROP BOX LINK"
-  github_path <- "C:/Users/Ilias/Documents/GitHub/WB-RoL-Social-Movements/"
+  github_path <- "C:/Users/brend/OneDrive/Documents/GitHub/WB-RoL-Social-Movements/"
   Sys.setenv(RSTUDIO_PANDOC = "/Applications/RStudio.app/Contents/MacOS/quarto/bin")
 }
 ```
