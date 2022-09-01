@@ -62,7 +62,7 @@ balance_tbl <- balance_tbl %>%
 colnames(balance_tbl) <- c("Univisited District Means", "Visited District Means", "P-Value", "Significance Level")
 
 # Save balance table 
-baltable <- data.frame(balance_tbl, height=50*nrow(baltable), width=200*ncol(baltable))
-png("balancetable.png")
+baltable <- data.frame(balance_tbl)
+png("balancetable.png", height=600, width=1400)
 grid.table(baltable)
 dev.off()
