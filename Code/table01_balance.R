@@ -1,3 +1,6 @@
+# Set WD for Outputs
+setwd(Outputs)
+
 # Grouping Data by Treatment Status 
 
 # Create a list that contains districts that were visited by chief justice in 2007
@@ -7,7 +10,7 @@ treated_districts <- c('Islamabad', 'Rawalpindi', 'Sukkur', 'Hyderabad', 'Peshaw
 clean_pslm_data <- clean_pslm_data %>%
   mutate(
     treated = ifelse(name %in% treated_districts, 1, 0)
-  )
+)
 
 # Subset the data for the control groups
 pslmdf_control <- clean_pslm_data %>%
@@ -59,4 +62,7 @@ balance_tbl <- balance_tbl %>%
 colnames(balance_tbl) <- c("Univisited District Means", "Visited District Means", "P-Value", "Significance Level")
 
 # Save balance table 
-table01_balance <- table(balance_tbl)
+baltable <- data.frame(balance_tbl, height=50*nrow(baltable), width=200*ncol(baltable))
+png("balancetable.png")
+grid.table(baltable)
+dev.off()
