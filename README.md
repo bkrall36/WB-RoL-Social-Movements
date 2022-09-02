@@ -52,12 +52,12 @@ Elections Data - Variable Descriptions
     <tr>
     <td>planned_treatment</td>
     <td>Dummy</td>
-    <td>A dummy variable constructed to designate if a district has was a planned visit (start or stop location), taking 1 if the CJ visited and 0 if the CJ did not visit.</td>
+    <td>A dummy variable constructed to designate if a district had a planned visit in 2007 (start or stop location), taking 1 if the CJ visited and 0 if the CJ did not visit.</td>
   </tr>
     <tr>
     <td>incidental_treatment</td>
     <td>Dummy</td>
-    <td>A dummy variable constructed to designate if a district was an incidental visit (along the route of the CJ), taking 1 if the CJ visited and 0 if the CJ did not visit.</td>
+    <td>A dummy variable constructed to designate if a district had an incidental visit in 2007 (along the route of the CJ), taking 1 if the CJ visited and 0 if the CJ did not visit.</td>
   </tr>
 </table>
   
