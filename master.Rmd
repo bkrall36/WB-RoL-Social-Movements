@@ -6,7 +6,6 @@ output: html_document
 ---
 
 # Master script for Rule of Law & Social Movements 
-
 ```{r}
 rm(list = ls())
 ```
@@ -14,14 +13,12 @@ rm(list = ls())
 # Select actions ------------------------------------------------------------
 
 # Cleaning
-
 ```{r}
 clean_elections_data <- 1 # Cleans elections data 
 clean_pslm_data  <- 1 # Cleans Pakistan social and living standards measurement data
 ```
 
 # Output for paper
-
 ```{r}
 table01_balance <- 1 # Creates balance table
 table02_DiDregression <- 1 # Creates regression tables (PML)
@@ -39,30 +36,21 @@ fig04_eventstudy <- 1 # Creates event study graph
 # User path -----------------------------------------------------------------
 
 # Brendon's data
-
 ```{r}
 if (Sys.getenv("USER") == "") {
 #  data_path <- "SULTAN DROP BOX LINK"
   github_path <- "C:/Users/Ilias/Documents/GitHub/WB-RoL-Social-Movements/"
-  #Sys.setenv(RSTUDIO_PANDOC = "/Applications/RStudio.app/Contents/MacOS/quarto/bin")
 }
 ```
 
-
-
-
 # Folder globals ------------------------------------------------------------
-
 ```{r}
 Inputs <- paste0(github_path, 'Inputs/')
 Outputs <- paste0(github_path, 'Outputs/')
 Code <- paste0(github_path, 'Code/')
 ```
 
-
-
 # Packages used --------------------------------------------------------------
-
 ```{r}
 packages <- c(
   "readxl",
@@ -77,15 +65,12 @@ packages <- c(
   "multiwayvcov",
   "sandwich",
   "stargazer",
-  "readr")
+  "readr",
+  "gridExtra")
 ```
 
-
-
-
 # Install packages
-
-```{r}
+```{r, include=FALSE}
 sapply(packages, function(x) {
   if (!(x %in% installed.packages())) {
     install.packages(x, dependencies = TRUE)
@@ -93,21 +78,15 @@ sapply(packages, function(x) {
 })
 ```
 
-
-
-  
 # Load packages
-```{r}
+```{r, include=FALSE}
 invisible(sapply(packages, require, character.only = TRUE))
 ```
-
-
 
 # Actions ---------------------------------------------------------------
 
 # Cleaning
-
-```{r}
+```{r, Warning = FALSE}
 if (clean_elections_data) source(
   paste0(Code, "elections_data_cleaning.R"))
 
@@ -120,7 +99,7 @@ if (clean_pslm_data) source(
 
 # Output for paper
 
-```{r}
+```{r, Warning = FALSE}
 if (table01_balance) source(
   paste0(Code, "table01_balance.R"))
 

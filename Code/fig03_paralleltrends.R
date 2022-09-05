@@ -1,3 +1,6 @@
+# Set WD for Outputs
+setwd(Outputs)
+
 # Parallel Trend Graphs
 # Subset data for ease of manipulation
 df_subset <- df %>% select(c(Year, Vote_Share.1, 'Party Initials', treated))
@@ -18,7 +21,7 @@ pml_trends <- df_subset %>%
   geom_vline(xintercept = 2007) +
   scale_color_manual('Treated', values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
-
+ggsave("linechart_pml_paralleltrends.pdf")
 
 
 # Parallel Trend for PML-N                   
@@ -31,6 +34,7 @@ pmln_trends <- df_subset %>%
   geom_vline(xintercept = 2007) +
   scale_color_manual('Treated', values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
+ggsave("linechart_pmln_paralleltrends.pdf")
 
 # Parallel Trend for PPPP                    
 ppp_trends <- df_subset %>%
@@ -42,3 +46,4 @@ ppp_trends <- df_subset %>%
   geom_vline(xintercept = 2007) +
   scale_color_manual('Treated', values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) +
   theme(legend.position="bottom", legend.title=element_blank(), plot.title = element_text(hjust = 0.5))
+ggsave("linechart_ppp_paralleltrends.pdf")

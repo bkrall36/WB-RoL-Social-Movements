@@ -1,3 +1,6 @@
+# Set WD for Outputs
+setwd(Outputs)
+
 # Event Study 
 # Construct a variable that, for treated units, will take the value of the 
 # number of years leading up to it (+3,-3). For untreated units, or treated 
@@ -19,4 +22,5 @@ table03_eventstudy <- stargazer(event_study_reg, type="text",
                                 notes = c("Robust standard errors appear in brackets (clustered at the district level)."), 
                                 notes.align = "l", 
                                 keep.stat=c('n', 'adj.rsq', 'f'), 
-                                add.lines = list("Mean" = c("Mean", round(mean(df$Vote_Share.1), 2))))
+                                add.lines = list("Mean" = c("Mean", round(mean(df$Vote_Share.1), 2))),
+                                out="eventstudy_regression.html")

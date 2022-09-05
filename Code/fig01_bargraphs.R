@@ -1,3 +1,6 @@
+# Set WD for Outputs
+setwd(Outputs)
+
 # Construct Bar Graph Variables 
 df_02_08_bargraphs <- df_02_08 %>%
   # Filter for specific political parties of interest
@@ -15,7 +18,6 @@ df_02_08_bargraphs <- df_02_08 %>%
 
 df_02_08_bargraphs$group <- ifelse(df_02_08_bargraphs$group == 1, 'Visited', 'Never Visited')
 
-
 # Bar Chart of Vote Share PML
 # Subset data for PML
 pml_bar <- df_02_08_bargraphs %>%
@@ -29,7 +31,8 @@ fig01_bargraphPML <- ggplot(data = pml_bar, aes(x=factor(Year), y=mean, groups=g
   labs(y= "Vote Share (%)", x = '', caption = str_wrap('Note: The figure presents the effect of Chief Justice visits to districts of Pakistan before 2008 elections on the share of votes in # favor of the PML party in 2008 provincial and national elections (compared to 2002 elections). The vertical lines reflect the 95% confidence intervals.')) +
   theme_light() + 
   theme(legend.position="right", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
-  scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
+  scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC")) 
+ggsave("bargraph_pml_2008DiD.pdf")
 
 
 # Bar Chart of Vote Share PML-N
@@ -46,7 +49,7 @@ fig02_bargraphPMLN <- ggplot(data = pmln_bar, aes(x=factor(Year), y=mean, groups
   theme_light() + 
   theme(legend.position="right", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
-
+ggsave("bargraph_pmln_2008DiD.pdf")
 
 # Bar Chart of Vote Share PPPP
 # Subset data for PML
@@ -62,3 +65,4 @@ fig03_bargraphPPP <- ggplot(data = pppp_bar, aes(x=factor(Year), y=mean, groups=
   theme_light() + 
   theme(legend.position="right", legend.title=element_blank(), plot.title = element_text(hjust = 0.5)) +
   scale_fill_manual("group", values = c("Visited" = "#2F4F4F", "Never Visited" = "#DCDCDC"))
+ggsave("bargraph_ppp_2008DiD.pdf")
