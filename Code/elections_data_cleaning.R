@@ -34,7 +34,7 @@ df <- df %>% mutate(
 df <- df %>% filter(!is.na(Vote_Share))
 
 # Select columns needed for analysis 
-df <- df %>% select(c('Year', 'PA ID', 'districts', 'Party Initials', 'Vote_Share.1', 'treated', 'planned_treatment', 'incidental_treatment'))
+df <- df %>% select(c('Year', 'year_dummy', 'PA ID', 'constituency_dummy', 'districts', 'Party Initials', 'Vote_Share.1', 'count', 'treated', 'planned_treatment', 'incidental_treatment', '1st_visit_year'))
 # Store Clean Data
 write_csv(df, paste0(
   Outputs, "clean_elections_data.csv"))
