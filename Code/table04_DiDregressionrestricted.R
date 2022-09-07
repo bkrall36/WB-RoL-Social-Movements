@@ -44,7 +44,7 @@ table04_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4,
                                    notes.align = "l", 
                                    keep.stat=c('n', 'adj.rsq', 'f'), 
                                    add.lines = list('Year FE' = c('Year FE','No', 'Yes', 'Yes', 'Yes'), 'Constituency FE' = c('Constituency FE','No', 'No', 'Yes', 'Yes'), 'Controls' = c('Controls','No', 'No', 'No', 'Yes'), "Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2))),
-                                   out="regression_pml_2008DiD.html")
+                                   out="restrictedregression_pml_2008DiD.html")
 
 
 # Perform Regression Analysis for Opposition 
@@ -94,4 +94,4 @@ table041_DiDregressionOpp <- stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4,
                                       notes.align = "l", 
                                       keep.stat=c('n', 'adj.rsq', 'f'), 
                                       add.lines = list('Year FE' = c('Year FE','Yes', 'Yes', 'Yes', 'Yes'), 'Constituency FE' = c('Constituency FE','Yes', 'Yes', 'Yes', 'Yes'), 'Controls' = c('Controls','No', 'Yes', 'No', 'Yes'), "Mean" = c("Mean", round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))),
-                                      out="regression_opp_2008DiD.html")
+                                      out="restrictedregression_opp_2008DiD.html")
