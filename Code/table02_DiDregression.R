@@ -27,12 +27,12 @@ cl.cov.pml4 <- cluster.vcov(reg_pml4, df_pml$`PA ID`)
 cl.robust.se.pml4 <- sqrt(diag(cl.cov.pml4))
 
 table02_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, 
-                                   type="text", 
-                                   title="Effect of CJ visits on vote share for General Musharraf PML - Impact on Dicator’s Party", 
-                                   keep = c('Constant','treated', 'year_dummy2008', 'count'), 
+                                   type="text",
+                                   style = 'aer',
+                                   title="Table 2 - Effect of CJ visits on vote share for General Musharraf PML - Impact on Dicator’s Party", 
+                                   keep = c('Constant','treated'), 
                                    order=c('Constant','treated'), 
-                                   covariate.labels=c('Unvisited Districts', 'Visited Districts','Year Dummy (2008)', 'Controls'), 
-                                   column.labels=c('OLS', 'OLS w/ Year FE', 'TWFE', 'TWFE w/ Controls'), 
+                                   covariate.labels=c('Unvisited Districts', 'Visited Districts'), 
                                    dep.var.caption = '', 
                                    dep.var.labels.include = FALSE, 
                                    se = list(cl.robust.se.pml1, cl.robust.se.pml2, cl.robust.se.pml3, cl.robust.se.pml4), 
@@ -43,7 +43,7 @@ table02_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4,
                                              "district. Controls include: # of candidates in a district (count)."),
                                    notes.align = "l", 
                                    keep.stat=c('n', 'adj.rsq', 'f'), 
-                                   add.lines = list("Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2))),
+                                   add.lines = list('Year FE' = c('Year FE','No', 'Yes', 'Yes', 'Yes'), 'Constituency FE' = c('Constituency FE','No', 'No', 'Yes', 'Yes'), 'Controls' = c('Controls','No', 'No', 'No', 'Yes'), "Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml$Vote_Share.1), 2))),
                                    out="regression_pml_2008DiD.html")
 
 
@@ -76,11 +76,12 @@ cl.robust.se.pppp4 <- sqrt(diag(cl.cov.pppp4))
 
 # Create Opposition (PML-N and PPP) Regression Table
 table03_DiDregressionOpp <- stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4, 
-                                      type="text", 
-                                      title="Effect of CJ visits on vote share for the Opposition (PML-N & PPP)", 
-                                      keep = c('Constant','treated', 'count', 'year_dummy2008'), order=c('Constant','treated'), 
-                                      covariate.labels=c('Unvisited Districts', 'Visited Districts', 'Year Dummy (2008)', 'Controls'), 
-                                      column.labels=c('PML-N: TWFE', 'PML-N: TWFE w/ Controls', 'PPP: TWFE', 'PPP: TWFE w/ Controls'), 
+                                      type="text",
+                                      style = 'aer', 
+                                      title="Table 3 - Effect of CJ visits on vote share for the Opposition (PML-N & PPP)", 
+                                      keep = c('Constant','treated'), order=c('Constant','treated'), 
+                                      covariate.labels=c('Unvisited Districts', 'Visited Districts'), 
+                                      column.labels=c('PML-N', 'PML-N', 'PPP', 'PPP'), 
                                       dep.var.caption = '', 
                                       dep.var.labels.include = FALSE, 
                                       se = list(cl.robust.se.pmln3, cl.robust.se.pmln4, cl.robust.se.pppp3, cl.robust.se.pppp4), 
@@ -91,7 +92,7 @@ table03_DiDregressionOpp <- stargazer(reg_pmln3,reg_pmln4,reg_pppp3,reg_pppp4,
                                                 "given district. Controls include: # of candidates in a district (count)."), 
                                       notes.align = "l", 
                                       keep.stat=c('n', 'adj.rsq', 'f'), 
-                                      add.lines = list("Mean" = c("Mean", round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))),
+                                      add.lines = list('Year FE' = c('Year FE','Yes', 'Yes', 'Yes', 'Yes'), 'Constituency FE' = c('Constituency FE','Yes', 'Yes', 'Yes', 'Yes'), 'Controls' = c('Controls','No', 'Yes', 'No', 'Yes'), "Mean" = c("Mean", round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))),
                                       out="regression_opp_2008DiD.html")
 
 # Perform Regression Analysis (incidental effects)
@@ -136,10 +137,11 @@ cl.robust.se.pppr2 <- sqrt(diag(cl.cov.pppr2))
 
 incidental_regressions <- stargazer(reg_pmlr2, reg_pmlnr2, reg_pppr2,  
                                     type="text", 
-                                    title="Effect of Incidental CJ visits on vote share ", 
-                                    keep = c('Constant','incidental_treatment', 'count'), 
+                                    style = 'aer',
+                                    title="Table 4 - Effect of Incidental CJ visits on vote share ", 
+                                    keep = c('Constant','incidental_treatment'), 
                                     order=c('Constant','incidental_treatment'), 
-                                    covariate.labels=c('Unvisited Districts', 'Incidental Districts', 'Controls'), 
+                                    covariate.labels=c('Unvisited Districts', 'Incidental Districts'), 
                                     column.labels=c('PLM', 'PLM-N', 'PPP'), 
                                     dep.var.caption = '', 
                                     dep.var.labels.include = FALSE, 
@@ -151,7 +153,7 @@ incidental_regressions <- stargazer(reg_pmlr2, reg_pmlnr2, reg_pppr2,
                                               "district. Controls include: # of candidates in a district (count)."), 
                                     notes.align = "l", 
                                     keep.stat=c('n', 'adj.rsq', 'f'), 
-                                    add.lines = list("Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))),
+                                    add.lines = list('Year FE' = c('Year FE','Yes', 'Yes', 'Yes'), 'Constituency FE' = c('Constituency FE','Yes', 'Yes', 'Yes'), 'Controls' = c('Controls','Yes', 'Yes', 'Yes'), "Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))),
                                     out="regression_incidental_2008DiD.html")
 
 
@@ -197,10 +199,11 @@ cl.robust.se.pppp2 <- sqrt(diag(cl.cov.pppr2))
 
 planned_regressions <- stargazer(reg_pmlp2, reg_pmlnp2, reg_pppp2, 
                                  type="text", 
-                                 title="Effect of Planned CJ visits on vote share ", 
-                                 keep = c('Constant','planned_treatment', 'count'), 
+                                 style = 'aer',
+                                 title="Table 5 - Effect of Planned CJ visits on vote share ", 
+                                 keep = c('Constant','planned_treatment'), 
                                  order=c('Constant','planned_treatment'), 
-                                 covariate.labels=c('Constant', 'Planned Districts', 'Controls'), 
+                                 covariate.labels=c('Constant', 'Planned Districts'), 
                                  column.labels=c('PLM', 'PLM-N', 'PPP'), 
                                  dep.var.caption = '', 
                                  dep.var.labels.include = FALSE, 
@@ -212,5 +215,5 @@ planned_regressions <- stargazer(reg_pmlp2, reg_pmlnp2, reg_pppp2,
                                            "district. Controls include: # of candidates in a district (count)."), 
                                  notes.align = "l", 
                                  keep.stat=c('n', 'adj.rsq', 'f'), 
-                                 add.lines = list("Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))),
+                                 add.lines = list('Year FE' = c('Year FE','Yes', 'Yes', 'Yes'), 'Constituency FE' = c('Constituency FE','Yes', 'Yes', 'Yes'), 'Controls' = c('Controls','Yes', 'Yes', 'Yes'), "Mean" = c("Mean", round(mean(df_pml$Vote_Share.1), 2), round(mean(df_pml_n$Vote_Share.1), 2), round(mean(df_pppp$Vote_Share.1), 2))),
                                  out="regression_planned_2008DiD.html")
