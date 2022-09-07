@@ -21,15 +21,14 @@ clean_pslm_data  <- 1 # Cleans Pakistan social and living standards measurement 
 # Output for paper
 ```{r}
 table01_balance <- 1 # Creates balance table
-table02_DiDregression <- 1 # Creates regression tables (PML)
+table02_DiDregression <- 1 # Creates regression tables with full samples
 table03_eventstudyregression <- 1 # Create regression table for event study 
-
+table04_DiDregressionrestricted <- 1 # Creates regression tables with restricted samples
 
 fig01_bargraphs <- 1 # Creates bar graph for parties means
 fig02_differenceinmeans <- 1 # Creates difference in means tables
 fig03_paralleltrends <- 1 # Creates parallel trends graphs 
 fig04_eventstudy <- 1 # Creates event study graph
-
 ```
 
 
@@ -110,6 +109,9 @@ if (table02_DiDregression) source(
 
 if (table03_eventstudyregression) source(
   paste0(Code, "table03_eventstudyregression.R"))
+
+if (table04_DiDregressionrestricted) source(
+  paste0(Code, "table04_DiDregressionrestricted.R"))
 
 if (fig01_bargraphs) source(
   paste0(Code, "fig01_bargraphs.R"))
