@@ -15,12 +15,17 @@ event_study_reg <- lm(Vote_Share.1 ~ factor(time_since_treatment) + constituency
 cl.cov.event <- cluster.vcov(event_study_reg, df$`PA ID`) 
 cl.robust.se.event <- sqrt(diag(cl.cov.event))
 
-table03_eventstudy <- stargazer(event_study_reg, type="text", 
-                                keep=c("Constant","time_since_treatment"), 
+table03_eventstudy <- stargazer(event_study_reg, 
+                                type="text",
+                                title = "Table 6 - Effect of CJ visits on vote share for All Parties",
+                                dep.var.labels.include = FALSE,
+                                style = 'aer',
+                                keep=c("time_since_treatment"), 
                                 se = list(cl.robust.se.event), 
                                 dep.var.caption = '', 
                                 notes = c("Robust standard errors appear in brackets (clustered at the district level)."), 
                                 notes.align = "l", 
                                 keep.stat=c('n', 'adj.rsq', 'f'), 
-                                add.lines = list("Mean" = c("Mean", round(mean(df$Vote_Share.1), 2))),
+                                add.lines = list('Year FE' = c('Year FE','Yes'), 'Constituency FE' = c('Constituency FE','Yes'), 'Controls' = c('Controls','Yes'), "Mean" = c("Mean", round(mean(df$Vote_Share.1), 2))),
                                 out="eventstudy_regression.html")
+
