@@ -5,25 +5,25 @@ setwd(Outputs)
 # OLS 
 reg_pml <- lm(Vote_Share.1 ~ treated, data = df_pml_restricted)
 # cluster-robust SEs for reg_pml
-cl.cov.pml1 <- cluster.vcov(reg_pml, df_pml$`PA ID`) 
+cl.cov.pml1 <- cluster.vcov(reg_pml, df_pml_restricted$`PA ID`) 
 cl.robust.se.pml1 <- sqrt(diag(cl.cov.pml1))
 
 # OLS with 'count' variable control
 reg_pml2 <- lm(Vote_Share.1 ~ treated + year_dummy, data = df_pml_restricted)
 # cluster-robust SEs for reg_pml2
-cl.cov.pml2 <- cluster.vcov(reg_pml2, df_pml$`PA ID`) 
+cl.cov.pml2 <- cluster.vcov(reg_pml2, df_pml_restricted$`PA ID`) 
 cl.robust.se.pml2 <- sqrt(diag(cl.cov.pml2))
 
 # OLS with TWFE 
 reg_pml3 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy, data = df_pml_restricted)
 # cluster-robust SEs for reg_pml3
-cl.cov.pml3 <- cluster.vcov(reg_pml3, df_pml$`PA ID`) 
+cl.cov.pml3 <- cluster.vcov(reg_pml3, df_pml_restricted$`PA ID`) 
 cl.robust.se.pml3 <- sqrt(diag(cl.cov.pml3))
 
 # OLS with TWFE + 'count' control variable 
 reg_pml4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count, data = df_pml_restricted)
 # cluster-robust SEs for reg_pml4
-cl.cov.pml4 <- cluster.vcov(reg_pml4, df_pml$`PA ID`) 
+cl.cov.pml4 <- cluster.vcov(reg_pml4, df_pml_restricted$`PA ID`) 
 cl.robust.se.pml4 <- sqrt(diag(cl.cov.pml4))
 
 table04_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4, 
@@ -52,26 +52,26 @@ table04_DiDregression <- stargazer(reg_pml,reg_pml2,reg_pml3,reg_pml4,
 # OLS with TWFE 
 reg_pmln3 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy, data = df_pml_n_restricted)
 # cluster-robust SEs for reg_pmln3
-cl.cov.pmln3 <- cluster.vcov(reg_pmln3, df_pml_n$`PA ID`) 
+cl.cov.pmln3 <- cluster.vcov(reg_pmln3, df_pml_n_restricted$`PA ID`) 
 cl.robust.se.pmln3 <- sqrt(diag(cl.cov.pmln3))
 
 # OLS with TWFE + 'count' control variable 
 reg_pmln4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count, data = df_pml_n_restricted)
 # cluster-robust SEs for reg_pmln4
-cl.cov.pmln4 <- cluster.vcov(reg_pmln4, df_pml_n$`PA ID`) 
+cl.cov.pmln4 <- cluster.vcov(reg_pmln4, df_pml_n_restricted$`PA ID`) 
 cl.robust.se.pmln4 <- sqrt(diag(cl.cov.pmln4))
 
 ## PPP
 # OLS with TWFE 
 reg_pppp3 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy, data = df_pppp_restricted)
 # cluster-robust SEs for reg_pppp3
-cl.cov.pppp3 <- cluster.vcov(reg_pppp3, df_pppp$`PA ID`) 
+cl.cov.pppp3 <- cluster.vcov(reg_pppp3, df_pppp_restricted$`PA ID`) 
 cl.robust.se.pppp3 <- sqrt(diag(cl.cov.pppp3))
 
 # OLS with TWFE + 'count' control variable 
 reg_pppp4 <- lm(Vote_Share.1 ~ treated + year_dummy + constituency_dummy + count, data = df_pppp_restricted)
 # cluster-robust SEs for reg_pppp4
-cl.cov.pppp4 <- cluster.vcov(reg_pppp4, df_pppp$`PA ID`) 
+cl.cov.pppp4 <- cluster.vcov(reg_pppp4, df_pppp_restricted$`PA ID`) 
 cl.robust.se.pppp4 <- sqrt(diag(cl.cov.pppp4))
 
 # Create Opposition (PML-N and PPP) Regression Table

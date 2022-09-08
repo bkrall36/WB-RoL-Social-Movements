@@ -47,11 +47,11 @@ df_pppp <- df_02_08 %>%
 df_02_08_restricted <- subset(df_02_08, !(districts %in% planned_districts))
 
 # Subset data by party affiliation 
-df_pml_restricted <- df_02_08 %>%
+df_pml_restricted <- df_02_08_restricted %>%
   filter(`Party Initials` == 'PML')
 
-df_pml_n_restricted <- df_02_08 %>%
+df_pml_n_restricted <- df_02_08_restricted %>%
   filter(`Party Initials` == 'PML-N')
 
-df_pppp_restricted <- df_02_08 %>%
+df_pppp_restricted <- df_02_08_restricted %>%
   filter(`Party Initials` == 'PPPP')
